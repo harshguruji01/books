@@ -1,6 +1,6 @@
 # ═══════════════════════════════════════════════════════════
-# robots.txt — www.webguruji.online (Main Site)
-# HarshGuruJi — All-in-One Platform
+# robots.txt — books.webguruji.online (Books Subdomain)
+# HarshGuruJi — NCERT Books & Textbooks Digital Library
 # Last Updated: 2026-10-02
 # ═══════════════════════════════════════════════════════════
 
@@ -9,43 +9,16 @@ Allow: /
 
 # ── Public Pages ──────────────────────────────────────────
 Allow: /index.html
-Allow: /login.html
-Allow: /signup.html
-Allow: /forgot-password.html
-Allow: /reset-password.html
-Allow: /store.html
-Allow: /store-detail.html
-Allow: /free-tools.html
-Allow: /tools.html
+Allow: /books.html
+Allow: /learning/
+Allow: /education.html
 Allow: /learning-hub.html
 Allow: /learning.html
-Allow: /books.html
-Allow: /education.html
-Allow: /technology.html
-Allow: /ai-hub.html
-Allow: /ai.html
-Allow: /gaming-hub.html
-Allow: /gaming.html
-Allow: /daily-special.html
-Allow: /daily-life.html
-Allow: /insights.html
-Allow: /explore.html
-Allow: /chat.html
-Allow: /ads.html
 Allow: /about.html
 Allow: /contact.html
-Allow: /contributor.html
-Allow: /join-contributor.html
-Allow: /apply-contributor.html
 Allow: /cookie.html
 Allow: /privacy-policy.html
 Allow: /terms-and-conditions.html
-
-# ── Tools, Games & Learning Sections ─────────────────────
-Allow: /tools/
-Allow: /games/
-Allow: /learning/
-Allow: /Quiz%20India/
 
 # ── Static Assets (for image/rich snippet indexing) ──────
 Allow: /css/
@@ -55,27 +28,17 @@ Allow: /logo-512.png
 Allow: /favicon.ico
 Allow: /harshlogo.png
 Allow: /harshlogo.webp
-Allow: /ai.png
 
-# ── Disallow: Admin, Dashboard & Private Areas ───────────
+# ── Disallow: Admin & Private Areas ───────────────────────
 Disallow: /admin*
 Disallow: /admin/
 Disallow: /admin.html
+Disallow: /adminbooks.html
 Disallow: /admin-*.html
-Disallow: /adminapkupload.html
-Disallow: /admincontributors.html
-Disallow: /admin-chatbase.html
-Disallow: /admin-contacts.html
-Disallow: /admin-requests.html
 Disallow: /dashboard.html
 Disallow: /settings.html
-Disallow: /appearance.html
-Disallow: /verify-contributor.html
 Disallow: /backend/
 Disallow: /backend_legacy/
-Disallow: /user/
-Disallow: /account/
-Disallow: /oauth/
 Disallow: /node_modules/
 Disallow: /scripts/
 Disallow: /data/
@@ -83,9 +46,8 @@ Disallow: /*.py$
 Disallow: /*.sql$
 Disallow: /*.md$
 Disallow: /*.json$
-Disallow: /*.groovy$
 
-# ── Crawl-delay (be polite to bots) ─────────────────────
+# ── Crawl-delay ───────────────────────────────────────────
 User-agent: AhrefsBot
 Crawl-delay: 10
 
@@ -93,9 +55,10 @@ User-agent: SemrushBot
 Crawl-delay: 10
 
 # ── Sitemaps ─────────────────────────────────────────────
-Sitemap: https://www.webguruji.online/sitemap.xml
-Sitemap: https://www.webguruji.online/sitemap_index.xml
+Sitemap: https://books.webguruji.online/sitemap.xml
+Sitemap: https://books.webguruji.online/sitemap_index.xml
 
 # ── Cross-domain Sitemaps (for unified Google indexing) ──
-Sitemap: https://chat.webguruji.online/sitemap.xml
+Sitemap: https://www.webguruji.online/sitemap.xml
 Sitemap: https://store.webguruji.online/sitemap.xml
+Sitemap: https://chat.webguruji.online/sitemap.xml

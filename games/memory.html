@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Match Card Game - Brain Training Game | HarshGuruJi Games</title>
+  <meta name="description" content="Train your memory and focus with this free interactive card matching game. Flip cards, find matching pairs, and track your best moves.">
+  <meta name="keywords" content="memory game, card match game, brain training, memory match online, concentration game">
+  <meta name="author" content="HarshGuruJi">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://www.webguruji.online/games/memory.html">
+  <link rel="icon" type="image/png" href="../logo.png">
+  <link rel="apple-touch-icon" href="../logo-192.png">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:site_name" content="HarshGuruJi">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.webguruji.online/games/memory.html">
+  <meta property="og:title" content="Memory Match Card Game - Brain Training Game | HarshGuruJi Games">
+  <meta property="og:description" content="Train your memory and focus with this free interactive card matching game. Flip cards, find matching pairs, and track your best moves.">
+  <meta property="og:image" content="https://www.webguruji.online/logo-512.png">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@harshguruji1">
+  <meta name="twitter:title" content="Memory Match Card Game - Brain Training Game | HarshGuruJi Games">
+  <meta name="twitter:description" content="Train your memory and focus with this free interactive card matching game. Flip cards, find matching pairs, and track your best moves.">
+  <meta name="twitter:image" content="https://www.webguruji.online/logo-512.png">
+
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.webguruji.online/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Gaming",
+      "item": "https://www.webguruji.online/gaming-hub.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Memory Match",
+      "item": "https://www.webguruji.online/games/memory.html"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Memory Match Card Game - Brain Training Game | HarshGuruJi Games",
+  "url": "https://www.webguruji.online/games/memory.html",
+  "description": "Train your memory and focus with this free interactive card matching game. Flip cards, find matching pairs, and track your best moves.",
+  "inLanguage": "en",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "HarshGuruJi",
+    "url": "https://www.webguruji.online/"
+  }
+}
+  </script>
+<link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../css/hubs.css">
+  <style>
+    .game-container { max-width: 600px; margin: 4rem auto; padding: 2rem; background: var(--hub-surface); border-radius: var(--hub-radius); border: 1px solid var(--hub-border); text-align: center; }
+    .back-btn { display: inline-block; margin-bottom: 1rem; color: var(--hub-text-secondary); text-decoration: none; }
+    .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 2rem; perspective: 1000px; }
+    .card { width: 100%; aspect-ratio: 1; background: var(--bg-color, #1a1a1a); border: 2px solid var(--hub-accent); border-radius: 8px; cursor: pointer; position: relative; transform-style: preserve-3d; transition: transform 0.5s; }
+    .card.flipped { transform: rotateY(180deg); }
+    .card .front, .card .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; border-radius: 6px; }
+    .card .front { background: var(--hub-accent); color: white; font-weight: bold; }
+    .card .back { background: var(--hub-surface); transform: rotateY(180deg); }
+    .stats { display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; margin-bottom: 1rem; }
+    .reset-btn { background: var(--hub-accent); color: white; border: none; padding: 0.75rem 2rem; border-radius: 8px; cursor: pointer; margin-top: 2rem; font-weight: bold; }
+  </style>
+
+  <link rel="stylesheet" href="../navbar-premium.css">
+  <link rel="stylesheet" href="../footer-premium.css">
+  <!-- Google AdSense -->
+  <!-- AdSense Click-Bombing & Invalid Traffic Protection -->
+  <script src="../js/ad-shield.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7706204118195419"
+     crossorigin="anonymous"></script>
+</head>
+<body class="hub-page dark-mode">
+
+<main class="game-container">
+  <div style="text-align: left;">
+    <a href="../gaming-hub.html" class="back-btn">← Back to Gaming Hub</a>
+  </div>
+  
+  <h1 style="color: var(--hub-accent); margin-bottom: 0.5rem;">Memory Match</h1>
+  <div class="stats">
+      <span>Moves: <span id="moves">0</span></span>
+      <span>Pairs: <span id="pairs">0/8</span></span>
+  </div>
+  <div class="grid" id="grid"></div>
+  <button class="reset-btn" onclick="initGame()">Restart Game</button>
+</main>
+
+<script>
+  const grid = document.getElementById('grid');
+  const movesEl = document.getElementById('moves');
+  const pairsEl = document.getElementById('pairs');
+  
+  const emojis = ['🚀', '🎮', '👾', '🌟', '💎', '🔥', '🎨', '🧩'];
+  let cards = [];
+  let flippedCards = [];
+  let moves = 0;
+  let matches = 0;
+  let lockBoard = false;
+
+  function initGame() {
+    grid.innerHTML = '';
+    cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
+    moves = 0;
+    matches = 0;
+    flippedCards = [];
+    lockBoard = false;
+    movesEl.innerText = moves;
+    pairsEl.innerText = '0/8';
+
+    cards.forEach((emoji, index) => {
+      const card = document.createElement('div');
+      card.classList.add('card');
+      card.dataset.emoji = emoji;
+      card.innerHTML = `
+        <div class="front">?</div>
+        <div class="back">${emoji}</div>
+      `;
+      card.addEventListener('click', flipCard);
+      grid.appendChild(card);
+    });
+  }
+
+  function flipCard() {
+    if (lockBoard) return;
+    if (this === flippedCards[0]) return;
+
+    this.classList.add('flipped');
+    flippedCards.push(this);
+
+    if (flippedCards.length === 2) {
+      moves++;
+      movesEl.innerText = moves;
+      checkForMatch();
+    }
+  }
+
+  function checkForMatch() {
+    let isMatch = flippedCards[0].dataset.emoji === flippedCards[1].dataset.emoji;
+    isMatch ? disableCards() : unflipCards();
+  }
+
+  function disableCards() {
+    flippedCards[0].removeEventListener('click', flipCard);
+    flippedCards[1].removeEventListener('click', flipCard);
+    matches++;
+    pairsEl.innerText = `${matches}/8`;
+    flippedCards = [];
+    
+    if(matches === 8) {
+        if (window.saveGameScore) window.saveGameScore('Memory Match', moves, { matches: 8 });
+        setTimeout(() => alert(`You won in ${moves} moves!`), 500);
+    }
+  }
+
+  function unflipCards() {
+    lockBoard = true;
+    setTimeout(() => {
+      flippedCards[0].classList.remove('flipped');
+      flippedCards[1].classList.remove('flipped');
+      flippedCards = [];
+      lockBoard = false;
+    }, 1000);
+  }
+
+  initGame();
+</script>
+
+  <script type="module" src="../js/game-db-init.js"></script>
+    <script type='module' src='../js/auth.js' defer></script>
+
+  <script src="../navbar-premium.js"></script>
+  <script src="../footer-premium.js"></script>
+</body>
+</html>
+

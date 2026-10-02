@@ -1,0 +1,29 @@
+node_modules/
+package-lock.json
+package.json
+
+# Backend
+backend/node_modules/
+backend/package-lock.json
+backend/dist/
+backend/.env
+
+# Environment files
+*.env
+.env.local
+
+# IDE
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# SDKs / Binaries
+flutter/

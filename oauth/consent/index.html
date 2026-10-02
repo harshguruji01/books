@@ -1,0 +1,314 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Authorize App | HarshGuruJi</title>
+  <link rel="icon" type="image/png" href="../../logo.png">
+  
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../style.css">
+
+  <style>
+    body {
+      background-color: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: 'Inter', sans-serif;
+    }
+    .auth-page {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 100px 5% 50px;
+    }
+    .auth-card {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 3rem;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+    .app-logo-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .app-logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+    .auth-header h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+    .auth-header p {
+      color: #94a3b8;
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+    }
+    .permissions-list {
+      text-align: left;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 15px 20px;
+      margin-bottom: 30px;
+    }
+    .permissions-list ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .permissions-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+      color: #cbd5e1;
+    }
+    .permissions-list li:last-child {
+      margin-bottom: 0;
+    }
+    .check-icon {
+      color: #10b981;
+      font-weight: bold;
+    }
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+    }
+    .btn {
+      flex: 1;
+      padding: 12px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .btn-cancel {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+    .btn-cancel:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .btn-authorize {
+      background: #ff3366;
+      color: white;
+      box-shadow: 0 4px 15px rgba(255, 51, 102, 0.3);
+    }
+    .btn-authorize:hover {
+      background: #e02958;
+      box-shadow: 0 6px 20px rgba(255, 51, 102, 0.4);
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-top: 20px;
+      margin-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: left;
+    }
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #7c3aed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    .user-details {
+      display: flex;
+      flex-direction: column;
+    }
+    .user-email {
+      color: #94a3b8;
+      font-size: 0.8rem;
+    }
+  </style>
+
+  <link rel="stylesheet" href="../../navbar-premium.css">
+  <link rel="stylesheet" href="../../footer-premium.css">
+  <!-- Google AdSense -->
+  <!-- AdSense Click-Bombing & Invalid Traffic Protection -->
+  <script src="../../js/ad-shield.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7706204118195419"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="premium-mobile-nav" id="premium-mobile-nav">
+    <div class="mobile-menu-container">
+      <div class="mobile-nav-item">
+        <a href="index.html" class="mobile-nav-link">Home</a>
+      </div>
+      <div class="mobile-nav-item">
+        <a href="#" class="mobile-nav-link">AI Hub <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 9l6 6 6-6"></path>
+          </svg></a>
+        <div class="mobile-submenu">
+          <div class="mobile-submenu-inner">
+            <a href="https://chatgpt.com" target="_blank" rel="noopener noreferrer" class="mobile-sub-link">ChatGPT</a>
+            <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" class="mobile-sub-link">Gemini</a>
+            <a href="https://claude.ai" target="_blank" rel="noopener noreferrer" class="mobile-sub-link">Claude</a>
+            <a href="https://www.midjourney.com" target="_blank" rel="noopener noreferrer" class="mobile-sub-link">Image
+              AI</a>
+          </div>
+        </div>
+      </div>
+      <div class="mobile-nav-item">
+        <a href="#" class="mobile-nav-link">Tools Hub <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 9l6 6 6-6"></path>
+          </svg></a>
+        <div class="mobile-submenu">
+          <div class="mobile-submenu-inner">
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="mobile-sub-link">Developer</a>
+            <a href="https://search.google.com/search-console" target="_blank" rel="noopener noreferrer" class="mobile-sub-link">SEO</a>
+            <a href="https://www.figma.com" target="_blank" rel="noopener noreferrer" class="mobile-sub-link">Design</a>
+          </div>
+        </div>
+      </div>
+      <div class="mobile-nav-item">
+        <a href="#" class="mobile-nav-link">Learning <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 9l6 6 6-6"></path>
+          </svg></a>
+        <div class="mobile-submenu">
+          <div class="mobile-submenu-inner">
+            <a href="https://www.freecodecamp.org/" target="_blank" rel="noopener noreferrer" class="mobile-sub-link">Programming</a>
+            <a href="https://www.khanacademy.org/science" target="_blank" rel="noopener noreferrer" class="mobile-sub-link">Science</a>
+            <a href="https://tryhackme.com/" target="_blank" rel="noopener noreferrer" class="mobile-sub-link">Cybersecurity</a>
+          </div>
+        </div>
+      </div>
+      <div class="mobile-nav-item">
+        <a href="../../store.html" class="mobile-nav-link">Store</a>
+      </div>
+      <div class="mobile-nav-item">
+        <a href="../../about.html" class="mobile-nav-link">About Us</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar will be injected here -->
+
+  <main class="auth-page">
+    <div class="auth-card">
+      <div class="app-logo-wrap">
+        <div class="app-logo" id="third-party-logo">📦</div>
+        <div style="color: #64748b; font-size: 1.5rem;">🔗</div>
+        <div class="app-logo" style="background: rgba(255, 51, 102, 0.1); border-color: rgba(255, 51, 102, 0.3);">
+          <img src="../../logo.png" alt="WG" style="width: 40px; border-radius: 5px;">
+        </div>
+      </div>
+
+      <div class="auth-header">
+        <h1>Authorize <span id="app-name-display" style="color: #ff3366;">Application</span></h1>
+        <p>This application would like to connect to your WebGuruJi account.</p>
+      </div>
+
+      <div class="permissions-list">
+        <ul>
+          <li><span class="check-icon">✓</span> View your email address</li>
+          <li><span class="check-icon">✓</span> See your basic profile information</li>
+        </ul>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn btn-cancel" id="btn-cancel">Cancel</button>
+        <button class="btn btn-authorize" id="btn-authorize">Authorize</button>
+      </div>
+
+      <div class="user-info" id="user-info-box" style="display: none;">
+        <div class="user-avatar" id="user-avatar">?</div>
+        <div class="user-details">
+          <span style="font-size: 0.9rem; font-weight: 500;" id="user-name">Loading...</span>
+          <span class="user-email" id="user-email">...</span>
+        </div>
+        <a href="../../login.html?redirect=oauth/consent" style="margin-left: auto; font-size: 0.8rem; color: #ff3366; text-decoration: none;">Not you?</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer will be injected here -->
+
+  <!-- Supabase & Auth Logic -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module">
+    import { supabase } from '../../js/supabase.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        // Redirect to login if not authenticated, storing the return URL
+        window.location.href = '../../login.html?redirect=oauth/consent' + window.location.search;
+        return;
+      }
+
+      // User is logged in, show their info
+      const user = session.user;
+      document.getElementById('user-info-box').style.display = 'flex';
+      
+      const email = user.email;
+      const name = user.user_metadata?.full_name || email.split('@')[0];
+      
+      document.getElementById('user-email').textContent = email;
+      document.getElementById('user-name').textContent = name;
+      document.getElementById('user-avatar').textContent = name.charAt(0).toUpperCase();
+
+      // Read URL params to get app name (mock for now)
+      const urlParams = new URLSearchParams(window.location.search);
+      const appName = urlParams.get('client_name') || 'Demo App';
+      document.getElementById('app-name-display').textContent = appName;
+    });
+
+    document.getElementById('btn-cancel').addEventListener('click', () => {
+      const redirectUri = new URLSearchParams(window.location.search).get('redirect_uri') || '../../index.html';
+      window.location.href = redirectUri + '?error=access_denied';
+    });
+
+    document.getElementById('btn-authorize').addEventListener('click', () => {
+      const btn = document.getElementById('btn-authorize');
+      btn.textContent = 'Authorizing...';
+      btn.style.opacity = '0.7';
+      btn.disabled = true;
+
+      setTimeout(() => {
+        const redirectUri = new URLSearchParams(window.location.search).get('redirect_uri') || '../../index.html';
+        // In a real OAuth flow, we would generate an authorization code here and pass it back
+        const code = 'mock_auth_code_' + Math.random().toString(36).substring(7);
+        window.location.href = redirectUri + '?code=' + code;
+      }, 1500);
+    });
+  </script>
+  <script src="../../navbar-premium.js" defer=""></script>
+
+  <script src="../../navbar-premium.js"></script>
+  <script src="../../footer-premium.js"></script>
+</body></html>

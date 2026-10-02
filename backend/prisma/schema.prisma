@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  CONTRIBUTOR
+  MODERATOR
+  ADMIN
+  SUPER_ADMIN
+}
+
+model User {
+  id                String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name              String?
+  username          String?   @unique
+  email             String    @unique
+  avatarUrl         String?   @map("avatar_url")
+  role              String    @default("USER")
+  emailVerified     Boolean   @default(false) @map("email_verified")
+  provider          String    @default("local")
+  providerAccountId String?   @map("provider_account_id")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+  lastLoginAt       DateTime? @map("last_login_at")
+  isActive          Boolean   @default(true) @map("is_active")
+  
+  // Extended profile fields
+  fullName          String?   @map("full_name")
+  mobile            String?
+  dob               DateTime?
+  gender            String?
+  country           String?
+  secretPinHash     String?   @map("secret_pin_hash")
+
+  @@map("users")
+}
+
+model Todo {
+  id        BigInt   @id @default(autoincrement())
+  task      String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("todos")
+}

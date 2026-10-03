@@ -232,6 +232,46 @@
       color: #fca5a5;
     }
 
+    .book-search-action-btn {
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 0.55rem 1.15rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+      margin-left: 0.5rem;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+      flex-shrink: 0;
+    }
+
+    .book-search-action-btn:hover {
+      background: linear-gradient(135deg, #4f46e5, #3730a3);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.55);
+    }
+
+    .book-search-action-btn:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 540px) {
+      .book-search-input-wrap {
+        padding: 0.5rem 0.65rem 0.5rem 0.85rem;
+      }
+      .book-search-action-btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.82rem;
+        margin-left: 0.35rem;
+      }
+    }
+
     .search-tags-hint {
       display: flex;
       align-items: center;
@@ -888,6 +928,10 @@
         </svg>
         <input type="text" id="book-search-input" class="book-search-input" placeholder="Search entire store by Class (e.g. 10, Class 12), Book Name, Subject, Chapter..." autocomplete="off" aria-label="Search all books">
         <button type="button" id="book-search-clear" class="book-search-clear" title="Clear Search" aria-label="Clear Search">&times;</button>
+        <button type="button" id="btn-book-search" class="book-search-action-btn" title="Search all books in library">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg>
+          <span>Search Books</span>
+        </button>
       </div>
 
       <!-- Quick Search Suggestions -->

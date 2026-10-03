@@ -49,6 +49,106 @@
   const pdfModalDownload = document.getElementById('pdf-modal-download');
   const pdfModalClose = document.getElementById('pdf-modal-close');
 
+  // Curated Verified NCERT Textbooks Seed (Available immediately out-of-the-box)
+  const DEFAULT_NCERT_BOOKS = [
+    {
+      id: 'ncert_10_science_ch1',
+      class: '10',
+      subject: 'Science',
+      book: 'Science - Class 10 Textbook',
+      book_title: 'Science - Class 10 Textbook',
+      subbook: 'Chapter 1: Chemical Reactions and Equations',
+      chapter_name: 'Chapter 1: Chemical Reactions and Equations',
+      edition: 'Rationalised 2024-25 Edition',
+      language: 'English',
+      pdf_url: 'https://ncert.nic.in/textbook/pdf/jesc101.pdf',
+      cover_url: 'https://ncert.nic.in/textbook/pdf/jesc1cc.jpg',
+      color: '#4f46e5',
+      file_size: '4.2 MB',
+      created_at: '2026-01-01T00:00:00.000Z'
+    },
+    {
+      id: 'ncert_10_maths_ch1',
+      class: '10',
+      subject: 'Mathematics',
+      book: 'Mathematics - Class 10 Textbook',
+      book_title: 'Mathematics - Class 10 Textbook',
+      subbook: 'Chapter 1: Real Numbers',
+      chapter_name: 'Chapter 1: Real Numbers',
+      edition: 'Rationalised 2024-25 Edition',
+      language: 'English',
+      pdf_url: 'https://ncert.nic.in/textbook/pdf/jemh101.pdf',
+      cover_url: 'https://ncert.nic.in/textbook/pdf/jemh1cc.jpg',
+      color: '#0ea5e9',
+      file_size: '3.8 MB',
+      created_at: '2026-01-02T00:00:00.000Z'
+    },
+    {
+      id: 'ncert_12_physics_ch1',
+      class: '12',
+      subject: 'Physics',
+      book: 'Physics Part I - Class 12',
+      book_title: 'Physics Part I - Class 12',
+      subbook: 'Chapter 1: Electric Charges and Fields',
+      chapter_name: 'Chapter 1: Electric Charges and Fields',
+      edition: 'Rationalised 2024-25 Edition',
+      language: 'English',
+      pdf_url: 'https://ncert.nic.in/textbook/pdf/leph101.pdf',
+      cover_url: 'https://ncert.nic.in/textbook/pdf/leph1cc.jpg',
+      color: '#8b5cf6',
+      file_size: '5.6 MB',
+      created_at: '2026-01-03T00:00:00.000Z'
+    },
+    {
+      id: 'ncert_12_chemistry_ch1',
+      class: '12',
+      subject: 'Chemistry',
+      book: 'Chemistry Part I - Class 12',
+      book_title: 'Chemistry Part I - Class 12',
+      subbook: 'Chapter 1: Solutions',
+      chapter_name: 'Chapter 1: Solutions',
+      edition: 'Rationalised 2024-25 Edition',
+      language: 'English',
+      pdf_url: 'https://ncert.nic.in/textbook/pdf/lech101.pdf',
+      cover_url: 'https://ncert.nic.in/textbook/pdf/lech1cc.jpg',
+      color: '#10b981',
+      file_size: '4.9 MB',
+      created_at: '2026-01-04T00:00:00.000Z'
+    },
+    {
+      id: 'ncert_11_biology_ch1',
+      class: '11',
+      subject: 'Biology',
+      book: 'Biology - Class 11 Textbook',
+      book_title: 'Biology - Class 11 Textbook',
+      subbook: 'Chapter 1: The Living World',
+      chapter_name: 'Chapter 1: The Living World',
+      edition: 'Rationalised 2024-25 Edition',
+      language: 'English',
+      pdf_url: 'https://ncert.nic.in/textbook/pdf/kebo101.pdf',
+      cover_url: 'https://ncert.nic.in/textbook/pdf/kebo1cc.jpg',
+      color: '#059669',
+      file_size: '3.5 MB',
+      created_at: '2026-01-05T00:00:00.000Z'
+    },
+    {
+      id: 'ncert_9_social_ch1',
+      class: '9',
+      subject: 'Social Science',
+      book: 'India and Contemporary World - I',
+      book_title: 'India and Contemporary World - I',
+      subbook: 'Chapter 1: The French Revolution',
+      chapter_name: 'Chapter 1: The French Revolution',
+      edition: 'Rationalised 2024-25 Edition',
+      language: 'English',
+      pdf_url: 'https://ncert.nic.in/textbook/pdf/iess301.pdf',
+      cover_url: 'https://ncert.nic.in/textbook/pdf/iess3cc.jpg',
+      color: '#f59e0b',
+      file_size: '6.1 MB',
+      created_at: '2026-01-06T00:00:00.000Z'
+    }
+  ];
+
   // --- INITIALIZATION ---
   document.addEventListener('DOMContentLoaded', async () => {
     setupEventListeners();
@@ -57,7 +157,7 @@
     applyFilters();
   });
 
-  // Listen for storage events (if admin publishes a book in another tab)
+  // Listen for storage events (if admin publishes/uploads a book in another tab)
   window.addEventListener('storage', async (e) => {
     if (e.key === 'wg_admin_books') {
       await loadPublishedBooks();
@@ -65,6 +165,16 @@
       applyFilters();
     }
   });
+
+  // Listen for BroadcastChannel instant cross-tab live sync
+  try {
+    const bc = new BroadcastChannel('harshguruji_books_sync');
+    bc.onmessage = async () => {
+      await loadPublishedBooks();
+      refreshClassControls();
+      applyFilters();
+    };
+  } catch(e) {}
 
   // Helper to obtain initialized Supabase client
   function getSupabase() {
@@ -82,7 +192,7 @@
       const local = localStorage.getItem('wg_admin_books');
       if (local) {
         const parsed = JSON.parse(local);
-        if (Array.isArray(parsed)) localBooks = parsed;
+        if (Array.isArray(parsed) && parsed.length > 0) localBooks = parsed;
       }
     } catch (e) {
       console.warn('[BooksEngine] Error reading local admin books:', e);
@@ -99,7 +209,9 @@
             class: String(item.class),
             subject: item.subject,
             book: item.book_title || item.book,
+            book_title: item.book_title || item.book,
             subbook: item.subbook || item.chapter_name || 'Full Book',
+            chapter_name: item.chapter_name || item.subbook || 'Full Book',
             edition: item.edition || 'Rationalised 2024-25 Edition',
             language: item.language || 'English',
             pdf_url: item.pdf_url || item.download_url,
@@ -108,23 +220,45 @@
             file_size: item.file_size || 'PDF Document',
             created_at: item.created_at
           }));
-          // Keep localStorage up to date with fresh database records
-          try {
-            localStorage.setItem('wg_admin_books', JSON.stringify(published));
-          } catch(e) {}
         }
       }
     } catch (err) {
       console.warn('[BooksEngine] Supabase fetch notice:', err);
     }
 
-    // If Supabase returned nothing or offline, use local cache
-    if (published.length === 0 && localBooks.length > 0) {
-      published = localBooks;
+    // 3. Merge: Local books (especially newly added uploads) take top priority
+    let merged = [];
+    const seenIds = new Set();
+
+    // First add local books (latest uploads)
+    localBooks.forEach(b => {
+      if (b && b.id && !seenIds.has(String(b.id))) {
+        seenIds.add(String(b.id));
+        merged.push({
+          ...b,
+          book: b.book || b.book_title,
+          subbook: b.subbook || b.chapter_name || 'Full Book'
+        });
+      }
+    });
+
+    // Then add cloud books
+    published.forEach(b => {
+      if (b && b.id && !seenIds.has(String(b.id))) {
+        seenIds.add(String(b.id));
+        merged.push(b);
+      }
+    });
+
+    // If completely empty, seed with verified NCERT defaults
+    if (merged.length === 0) {
+      merged = DEFAULT_NCERT_BOOKS;
+      try {
+        localStorage.setItem('wg_admin_books', JSON.stringify(merged));
+      } catch(e) {}
     }
 
-    // STRICT: Only published books
-    allBooks = published;
+    allBooks = merged;
   }
 
   // --- 2. DYNAMICALLY REFRESH CLASS CONTROLS ---
@@ -209,6 +343,17 @@
         if (e.key === 'Enter') {
           e.preventDefault();
           applyFilters();
+        }
+      });
+    }
+
+    // Dedicated Search Books Button
+    const btnBookSearch = document.getElementById('btn-book-search');
+    if (btnBookSearch) {
+      btnBookSearch.addEventListener('click', () => {
+        applyFilters();
+        if (booksGrid) {
+          booksGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       });
     }
@@ -440,16 +585,16 @@
 
     // Filter books
     filteredBooks = allBooks.filter(item => {
-      // If user typed in search bar, search across the ENTIRE library
+      // If user typed in search bar or clicked Search Books, search across ALL books in the catalog!
       if (isSearching) {
-        if (!matchesUniversalSearch(item, query)) return false;
+        return matchesUniversalSearch(item, query);
       }
 
-      // If user has chosen guided finder filters (and query doesn't explicitly conflict)
+      // If user has chosen guided finder filters (and query is empty)
       if (selectedClass && String(item.class) !== String(selectedClass)) return false;
       if (selectedSubject && item.subject !== selectedSubject) return false;
-      if (selectedBook && item.book !== selectedBook) return false;
-      if (selectedSubbook && item.subbook !== selectedSubbook) return false;
+      if (selectedBook && (item.book !== selectedBook && item.book_title !== selectedBook)) return false;
+      if (selectedSubbook && (item.subbook !== selectedSubbook && item.chapter_name !== selectedSubbook)) return false;
 
       return true;
     });
@@ -458,7 +603,7 @@
     if (searchLiveStatus && searchStatusText) {
       if (isSearching) {
         searchLiveStatus.style.display = 'flex';
-        searchStatusText.innerHTML = `🔍 Universal Search: <strong>"${escapeHtml(rawQuery)}"</strong> &mdash; <span>${filteredBooks.length} result${filteredBooks.length !== 1 ? 's' : ''} found across entire store</span>`;
+        searchStatusText.innerHTML = `🔍 Universal Search: <strong>"${escapeHtml(rawQuery)}"</strong> &mdash; <span>${filteredBooks.length} book${filteredBooks.length !== 1 ? 's' : ''} found across entire library</span>`;
       } else {
         searchLiveStatus.style.display = 'none';
       }
@@ -470,19 +615,20 @@
 
   /**
    * Smart Universal Search Matcher:
-   * Supports Class (e.g. "10", "class 10", "12th"), Book Name, Subject, Chapter, or any keyword.
+   * Searches Class, Book Title, Subject, Chapter, Language, Edition, or any keyword.
    */
   function matchesUniversalSearch(item, query) {
     if (!query) return true;
 
     const cls = String(item.class || '').trim();
     const sub = String(item.subject || '').trim().toLowerCase();
-    const bk = String(item.book || '').trim().toLowerCase();
-    const ch = String(item.subbook || '').trim().toLowerCase();
+    const bk = String(item.book || item.book_title || '').trim().toLowerCase();
+    const ch = String(item.subbook || item.chapter_name || '').trim().toLowerCase();
     const ed = String(item.edition || '').trim().toLowerCase();
     const lang = String(item.language || '').trim().toLowerCase();
+    const size = String(item.file_size || '').trim().toLowerCase();
 
-    // Generate class search aliases
+    // Generate class search aliases (e.g. 10, class 10, class10, 10th)
     const classAliases = [
       cls,
       `class ${cls}`,
@@ -498,14 +644,18 @@
 
     // Map common subject aliases (e.g. maths -> mathematics, sci -> science)
     let extraSubjectAliases = '';
-    if (sub.includes('math') || bk.includes('math')) extraSubjectAliases += ' maths mathematics math';
-    if (sub.includes('science') || bk.includes('science')) extraSubjectAliases += ' sci science';
+    if (sub.includes('math') || bk.includes('math')) extraSubjectAliases += ' maths mathematics math arithmetic algebra geometry';
+    if (sub.includes('science') || bk.includes('science')) extraSubjectAliases += ' sci science natural science';
     if (sub.includes('physics') || bk.includes('physics')) extraSubjectAliases += ' phy physics';
     if (sub.includes('chemistry') || bk.includes('chemistry')) extraSubjectAliases += ' chem chemistry';
     if (sub.includes('biology') || bk.includes('biology')) extraSubjectAliases += ' bio biology';
-    if (sub.includes('social') || sub.includes('history') || sub.includes('geography')) extraSubjectAliases += ' sst social science';
+    if (sub.includes('social') || sub.includes('history') || sub.includes('geography')) extraSubjectAliases += ' sst social science history civics geography economics';
+    if (sub.includes('english') || bk.includes('english')) extraSubjectAliases += ' eng english honeycomb beehive hornbill flamingo first flight footprint';
+    if (sub.includes('hindi') || bk.includes('hindi')) extraSubjectAliases += ' hin hindi sparsh sanchayan kshitij kritika vasant rimjhim';
+    if (sub.includes('computer') || bk.includes('computer')) extraSubjectAliases += ' cs computer science informatics practices it';
+    if (sub.includes('sanskrit') || bk.includes('sanskrit')) extraSubjectAliases += ' sanskrit shemushi ruchira';
 
-    const haystack = `${classAliases} ${sub} ${extraSubjectAliases} ${bk} ${ch} ${ed} ${lang}`.toLowerCase();
+    const haystack = `${classAliases} ${sub} ${extraSubjectAliases} ${bk} ${ch} ${ed} ${lang} ${size}`.toLowerCase();
 
     // 1. Direct whole-string match
     if (haystack.includes(query)) return true;
@@ -515,7 +665,7 @@
     if (tokens.length > 1) {
       const allTokensPresent = tokens.every(tok => {
         // Special case for class tokens like "10" or "class"
-        if (tok === 'class') return true; // generic word
+        if (tok === 'class' || tok === 'book' || tok === 'ncert' || tok === 'cbse') return true;
         return haystack.includes(tok);
       });
       if (allTokensPresent) return true;

@@ -1,9 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  // --- Context-Aware Path Resolver ---
-  const isSubDir = window.location.pathname.includes('/tools/') || window.location.pathname.includes('/games/') || window.location.pathname.includes('/learning/') || window.location.pathname.includes('/oauth/');
-  const prefix = isSubDir ? '../' : '';
-
   // Remove existing hardcoded footers
   document.querySelectorAll('footer.footer, footer.hg-global-footer').forEach(el => el.remove());
   const oldFooterPlaceholder = document.getElementById('footer-placeholder');
@@ -15,14 +11,14 @@ document.addEventListener('DOMContentLoaded', () => {
     <footer class="hg-global-footer">
       <div class="hg-footer-grid">
         <div class="hg-footer-brand">
-          <a href="${prefix}index.html" style="display:flex; align-items:center; gap:0.75rem; text-decoration:none; margin-bottom: 1.5rem;">
-            <img src="${prefix}logo.png" alt="HarshGuruJi Logo" style="height: 48px; width: auto; border-radius: 8px;" />
-            <span style="font-family:'Space Grotesk',sans-serif; font-weight:800; font-size:1.5rem; background:linear-gradient(135deg,#3b82f6,#8b5cf6); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">HarshGuruJi</span>
+          <a href="books.html" style="display:flex; align-items:center; gap:0.75rem; text-decoration:none; margin-bottom: 1.25rem;">
+            <img src="logo.png" alt="WebGuruJi Books Logo" style="height: 44px; width: auto; border-radius: 10px;" />
+            <span style="font-family:'Space Grotesk',sans-serif; font-weight:800; font-size:1.45rem; background:linear-gradient(135deg,#6366f1,#a855f7,#ec4899); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">WebGuruJi Books</span>
           </a>
-          <p>HarshGuruJi is a premium digital platform for learning, AI, tools, knowledge, games, and useful online resources. Learn • Create • Explore • Build.</p>
+          <p>Official NCERT Textbooks &amp; Solutions Library for Classes 1 to 12. Instant chapter-by-chapter reading, verified PDF downloads, and interactive book discovery engine.</p>
           
           <div class="hg-footer-search">
-            <input type="text" id="hg-footer-search-input" placeholder="Search HarshGuruJi..." aria-label="Search the website">
+            <input type="text" id="hg-footer-search-input" placeholder="Search NCERT books, chapters..." aria-label="Search the book library">
             <button type="button" id="hg-footer-search-btn" aria-label="Search">Search</button>
           </div>
 
@@ -41,73 +37,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
         <nav class="hg-footer-navs" aria-label="Footer Navigation">
           <div class="hg-footer-col">
-            <h5>Platform</h5>
+            <h5>Senior Classes</h5>
             <ul>
-              <li><a href="${prefix}index.html">Home</a></li>
-              <li><a href="${prefix}ai-hub.html">AI Hub</a></li>
-              <li><a href="${prefix}daily-special.html">Daily Special</a></li>
-              <li><a href="${prefix}dashboard.html">Dashboard</a></li>
-              <li><a href="${prefix}explore.html">Explore</a></li>
+              <li><a href="javascript:void(0)" onclick="window.selectBookClass('12')">Class 12 NCERT</a></li>
+              <li><a href="javascript:void(0)" onclick="window.selectBookClass('11')">Class 11 NCERT</a></li>
+              <li><a href="javascript:void(0)" onclick="window.selectBookClass('10')">Class 10 Board Books</a></li>
+              <li><a href="javascript:void(0)" onclick="window.selectBookClass('9')">Class 9 NCERT</a></li>
+              <li><a href="javascript:void(0)" onclick="window.selectBookClass('8')">Class 8 NCERT</a></li>
             </ul>
           </div>
           <div class="hg-footer-col">
-            <h5>Tools</h5>
+            <h5>Middle &amp; Primary</h5>
             <ul>
-              <li><a href="${prefix}free-tools.html">All Tools</a></li>
-              <li><a href="${prefix}explore.html?search=Text">Text Tools</a></li>
-              <li><a href="${prefix}explore.html?search=Calculator">Calculators</a></li>
-              <li><a href="${prefix}explore.html?search=Converter">Converters</a></li>
-              <li><a href="${prefix}explore.html?search=Developer">Dev Tools</a></li>
+              <li><a href="javascript:void(0)" onclick="window.selectBookClass('7')">Class 7 NCERT</a></li>
+              <li><a href="javascript:void(0)" onclick="window.selectBookClass('6')">Class 6 NCERT</a></li>
+              <li><a href="javascript:void(0)" onclick="window.selectBookClass('5')">Class 5 Textbooks</a></li>
+              <li><a href="javascript:void(0)" onclick="window.selectBookClass('4')">Class 4 Textbooks</a></li>
+              <li><a href="javascript:void(0)" onclick="window.selectBookClass('all')">All Classes View</a></li>
             </ul>
           </div>
           <div class="hg-footer-col">
-            <h5>Learning</h5>
+            <h5>Quick Discovery</h5>
             <ul>
-              <li><a href="${prefix}learning-hub.html">Learning Hub</a></li>
-              <li><a href="https://books.webguruji.online" target="_blank" rel="noopener noreferrer">NCERT Books Library</a></li>
-              <li><a href="${prefix}education.html">Education</a></li>
-              <li><a href="${prefix}learning/class-10-science.html">Class 10</a></li>
-              <li><a href="${prefix}learning/class.html?class=9">Class 9</a></li>
-              <li><a href="${prefix}learning/gk-quiz.html">Quizzes</a></li>
+              <li><a href="#step-box-class" onclick="window.scrollToSection('step-box-class')">4-Step Book Finder</a></li>
+              <li><a href="#books-grid" onclick="window.scrollToSection('books-grid')">Available Textbooks</a></li>
+              <li><a href="javascript:void(0)" onclick="window.focusBookSearch()">Search Library</a></li>
+              <li><a href="adminbooks.html">Admin Books Studio</a></li>
             </ul>
           </div>
           <div class="hg-footer-col">
-            <h5>Games & Store</h5>
+            <h5>WebGuruJi Network</h5>
             <ul>
-              <li><a href="https://store.webguruji.online" target="_blank" rel="noopener noreferrer">HarshGuruJi Store</a></li>
-              <li><a href="https://chat.webguruji.online" target="_blank" rel="noopener noreferrer">Chat HarshGuruJi</a></li>
-              <li><a href="${prefix}gaming-hub.html">Gaming Hub</a></li>
-              <li><a href="${prefix}Quiz India/index.html">Quiz India</a></li>
-              <li><a href="${prefix}games/tic-tac-toe.html">Tic Tac Toe</a></li>
-              <li><a href="${prefix}games/snake.html">Snake</a></li>
-            </ul>
-          </div>
-          <div class="hg-footer-col">
-            <h5>Company & Legal</h5>
-            <ul>
-              <li><a href="${prefix}about.html">About Us</a></li>
-              <li><a href="${prefix}contact.html">Contact Us</a></li>
-              <li><a href="${prefix}contributor.html">Contributors</a></li>
-              <li><a href="${prefix}privacy-policy.html">Privacy Policy</a></li>
-              <li><a href="${prefix}terms-and-conditions.html">Terms</a></li>
-              <li><a href="${prefix}cookie.html">Cookies</a></li>
+              <li><a href="https://www.webguruji.online" target="_blank" rel="noopener noreferrer">Main Portal ↗</a></li>
+              <li><a href="https://store.webguruji.online" target="_blank" rel="noopener noreferrer">Apps &amp; Software Store ↗</a></li>
+              <li><a href="https://chat.webguruji.online" target="_blank" rel="noopener noreferrer">ChatBase AI ↗</a></li>
+              <li><a href="https://www.webguruji.online/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
+              <li><a href="https://www.webguruji.online/terms-and-conditions.html" target="_blank" rel="noopener noreferrer">Terms of Service</a></li>
             </ul>
           </div>
         </nav>
       </div>
 
       <div class="hg-footer-bottom">
-        <div style="display: flex; align-items: center; gap: 1.5rem;">
-          <img src="${prefix}harshlogo.png" loading="lazy" alt="Harsh Patel – Founder" style="height: 60px; width: auto; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);" />
+        <div style="display: flex; align-items: center; gap: 1.25rem;">
+          <img src="harshlogo.png" loading="lazy" alt="Harsh Patel – Founder" style="height: 52px; width: auto; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);" />
           <div>
-            <strong style="color: var(--text-primary, #fff); font-size: 1.1rem; display: block; margin-bottom: 0.2rem;">Harsh Patel</strong>
-            <span style="color: var(--accent-primary, #3b82f6); font-size: 0.85rem; font-weight: 600; display: block;">Founder & Owner</span>
+            <strong style="color: var(--text-primary, #fff); font-size: 1.05rem; display: block; margin-bottom: 0.2rem;">Harsh Patel</strong>
+            <span style="color: var(--bnav-primary, #6366f1); font-size: 0.82rem; font-weight: 600; display: block;">Founder &amp; Developer</span>
           </div>
         </div>
         
         <p style="color: var(--text-secondary, #a1a1aa); font-size: 0.85rem; margin: 0;">
-          &copy; <span id="hg-footer-year">${currentYear}</span> HarshGuruJi. All Rights Reserved. <br>
-          Made with ❤️ by HarshGuruJi.
+          &copy; <span id="hg-footer-year">${currentYear}</span> WebGuruJi. All Rights Reserved. <br>
+          Dedicated NCERT Books &amp; Study Library.
         </p>
       </div>
     </footer>
@@ -115,26 +97,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.body.insertAdjacentHTML('beforeend', footerHTML);
 
-  // Footer Search logic
+  // Footer Search logic: seamlessly triggers in-page book search
   const searchBtn = document.getElementById('hg-footer-search-btn');
   const searchInput = document.getElementById('hg-footer-search-input');
   
   if (searchBtn && searchInput) {
-    searchBtn.addEventListener('click', function() {
+    const handleFooterSearch = () => {
       const val = searchInput.value.trim();
-      if(val) {
-        window.location.href = prefix + `explore.html?search=${encodeURIComponent(val)}`;
-      }
-    });
-    
-    searchInput.addEventListener('keypress', function(e) {
-      if(e.key === 'Enter') {
-        const val = this.value.trim();
-        if(val) {
-          window.location.href = prefix + `explore.html?search=${encodeURIComponent(val)}`;
+      if (val) {
+        const mainInput = document.getElementById('book-search-input');
+        if (mainInput) {
+          mainInput.value = val;
+          mainInput.dispatchEvent(new Event('input', { bubbles: true }));
+          window.scrollToSection('books-grid');
+        } else {
+          window.location.href = `books.html?search=${encodeURIComponent(val)}`;
         }
       }
+    };
+
+    searchBtn.addEventListener('click', handleFooterSearch);
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') handleFooterSearch();
     });
   }
 });
-

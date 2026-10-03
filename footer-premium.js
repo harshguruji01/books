@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="hg-footer-grid">
         <div class="hg-footer-brand">
           <a href="books.html" style="display:flex; align-items:center; gap:0.75rem; text-decoration:none; margin-bottom: 1.25rem;">
-            <img src="logo.png" alt="HarshGuruJi Books Logo" style="height: 44px; width: auto; border-radius: 10px;" />
+            <img src="books.png" onerror="this.src='logo.png'" alt="HarshGuruJi Books Logo" style="height: 44px; width: auto; border-radius: 10px;" />
             <span style="font-family:'Space Grotesk',sans-serif; font-weight:800; font-size:1.45rem; background:linear-gradient(135deg,#6366f1,#a855f7,#ec4899); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">HarshGuruJi Books</span>
           </a>
           <p>Official NCERT Textbooks &amp; Solutions Library for Classes 1 to 12. Instant chapter-by-chapter reading, verified PDF downloads, and interactive book discovery engine.</p>

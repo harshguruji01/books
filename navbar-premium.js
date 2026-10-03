@@ -41,7 +41,7 @@
           <!-- Brand Logo & Subdomain Identity -->
           <a href="${isBooksPage ? '#top' : 'books.html'}" class="books-brand" id="nav-brand-link" aria-label="HarshGuruJi Books Home">
             <div class="books-brand-logo-wrap">
-              <img src="logo.png" alt="HarshGuruJi Books" class="books-brand-logo" fetchpriority="high">
+              <img src="books.png" onerror="this.src='logo.png'" alt="HarshGuruJi Books" class="books-brand-logo" fetchpriority="high">
             </div>
             <div class="books-brand-text-wrap">
               <div class="books-brand-name">

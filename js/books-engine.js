@@ -1,17 +1,35 @@
 /**
  * ============================================================================
- * WebGuruJi Books Engine (js/books-engine.js)
- * Dynamic NCERT Textbook Library & Universal Search Engine
- * Displays ONLY books published from Admin Books Studio (adminbooks.html).
- * Dual-sync: Supabase `ncert_books` + localStorage['wg_admin_books'].
+ * HarshGuruJi Books Engine (js/books-engine.js)
+ * Official NCERT Digital Library & Universal Search Engine
+ * Features:
+ * - 1,246+ Official NCERT Textbooks for Classes 1 to 12
+ * - Dual-sync: Supabase `ncert_books` + localStorage['wg_admin_books'] + Master NCERT Catalog
+ * - Real-time Chapter PDF Viewer & Full Book ZIP Downloader
+ * - URL deep links (?class=10, ?q=maths) for Google Search Console indexing
  * ============================================================================
  */
 (function () {
   'use strict';
 
-  // Master published books catalog - starts empty, strictly populated by admin
+  // Master published books catalog
   let allBooks = [];
   let filteredBooks = [];
+  let visibleLimit = 48;
+
+  // Local Offline PDF Cache (Pre-downloaded Core Textbooks)
+  const LOCAL_PDFS = {
+    'jemh1': 'pdf/jemh101.pdf',
+    'jesc1': 'pdf/jesc101.pdf',
+    'leph1': 'pdf/leph101.pdf',
+    'lech1': 'pdf/lech101.pdf',
+    'kebo1': 'pdf/kebo101.pdf',
+    'jeff1': 'pdf/jeff101.pdf',
+    'iemh1': 'pdf/iemh101.pdf',
+    'hesc1': 'pdf/hesc101.pdf',
+    'gesc1': 'pdf/gesc101.pdf',
+    'aemr1': 'pdf/aemr101.pdf'
+  };
 
   // DOM Elements - Finder & Search
   const searchInput = document.getElementById('book-search-input');
@@ -47,114 +65,32 @@
   const pdfViewerFrame = document.getElementById('pdf-viewer-frame');
   const pdfModalNewtab = document.getElementById('pdf-modal-newtab');
   const pdfModalDownload = document.getElementById('pdf-modal-download');
+  const pdfModalZip = document.getElementById('pdf-modal-zip');
   const pdfModalClose = document.getElementById('pdf-modal-close');
-
-  // Curated Verified NCERT Textbooks Seed (Available immediately out-of-the-box)
-  const DEFAULT_NCERT_BOOKS = [
-    {
-      id: 'ncert_10_science_ch1',
-      class: '10',
-      subject: 'Science',
-      book: 'Science - Class 10 Textbook',
-      book_title: 'Science - Class 10 Textbook',
-      subbook: 'Chapter 1: Chemical Reactions and Equations',
-      chapter_name: 'Chapter 1: Chemical Reactions and Equations',
-      edition: 'Rationalised 2024-25 Edition',
-      language: 'English',
-      pdf_url: 'https://ncert.nic.in/textbook/pdf/jesc101.pdf',
-      cover_url: 'https://ncert.nic.in/textbook/pdf/jesc1cc.jpg',
-      color: '#4f46e5',
-      file_size: '4.2 MB',
-      created_at: '2026-01-01T00:00:00.000Z'
-    },
-    {
-      id: 'ncert_10_maths_ch1',
-      class: '10',
-      subject: 'Mathematics',
-      book: 'Mathematics - Class 10 Textbook',
-      book_title: 'Mathematics - Class 10 Textbook',
-      subbook: 'Chapter 1: Real Numbers',
-      chapter_name: 'Chapter 1: Real Numbers',
-      edition: 'Rationalised 2024-25 Edition',
-      language: 'English',
-      pdf_url: 'https://ncert.nic.in/textbook/pdf/jemh101.pdf',
-      cover_url: 'https://ncert.nic.in/textbook/pdf/jemh1cc.jpg',
-      color: '#0ea5e9',
-      file_size: '3.8 MB',
-      created_at: '2026-01-02T00:00:00.000Z'
-    },
-    {
-      id: 'ncert_12_physics_ch1',
-      class: '12',
-      subject: 'Physics',
-      book: 'Physics Part I - Class 12',
-      book_title: 'Physics Part I - Class 12',
-      subbook: 'Chapter 1: Electric Charges and Fields',
-      chapter_name: 'Chapter 1: Electric Charges and Fields',
-      edition: 'Rationalised 2024-25 Edition',
-      language: 'English',
-      pdf_url: 'https://ncert.nic.in/textbook/pdf/leph101.pdf',
-      cover_url: 'https://ncert.nic.in/textbook/pdf/leph1cc.jpg',
-      color: '#8b5cf6',
-      file_size: '5.6 MB',
-      created_at: '2026-01-03T00:00:00.000Z'
-    },
-    {
-      id: 'ncert_12_chemistry_ch1',
-      class: '12',
-      subject: 'Chemistry',
-      book: 'Chemistry Part I - Class 12',
-      book_title: 'Chemistry Part I - Class 12',
-      subbook: 'Chapter 1: Solutions',
-      chapter_name: 'Chapter 1: Solutions',
-      edition: 'Rationalised 2024-25 Edition',
-      language: 'English',
-      pdf_url: 'https://ncert.nic.in/textbook/pdf/lech101.pdf',
-      cover_url: 'https://ncert.nic.in/textbook/pdf/lech1cc.jpg',
-      color: '#10b981',
-      file_size: '4.9 MB',
-      created_at: '2026-01-04T00:00:00.000Z'
-    },
-    {
-      id: 'ncert_11_biology_ch1',
-      class: '11',
-      subject: 'Biology',
-      book: 'Biology - Class 11 Textbook',
-      book_title: 'Biology - Class 11 Textbook',
-      subbook: 'Chapter 1: The Living World',
-      chapter_name: 'Chapter 1: The Living World',
-      edition: 'Rationalised 2024-25 Edition',
-      language: 'English',
-      pdf_url: 'https://ncert.nic.in/textbook/pdf/kebo101.pdf',
-      cover_url: 'https://ncert.nic.in/textbook/pdf/kebo1cc.jpg',
-      color: '#059669',
-      file_size: '3.5 MB',
-      created_at: '2026-01-05T00:00:00.000Z'
-    },
-    {
-      id: 'ncert_9_social_ch1',
-      class: '9',
-      subject: 'Social Science',
-      book: 'India and Contemporary World - I',
-      book_title: 'India and Contemporary World - I',
-      subbook: 'Chapter 1: The French Revolution',
-      chapter_name: 'Chapter 1: The French Revolution',
-      edition: 'Rationalised 2024-25 Edition',
-      language: 'English',
-      pdf_url: 'https://ncert.nic.in/textbook/pdf/iess301.pdf',
-      cover_url: 'https://ncert.nic.in/textbook/pdf/iess3cc.jpg',
-      color: '#f59e0b',
-      file_size: '6.1 MB',
-      created_at: '2026-01-06T00:00:00.000Z'
-    }
-  ];
+  const pdfModalChapterSelect = document.getElementById('pdf-modal-chapter-select');
 
   // --- INITIALIZATION ---
   document.addEventListener('DOMContentLoaded', async () => {
     setupEventListeners();
     await loadPublishedBooks();
     refreshClassControls();
-    applyFilters();
+
+    // Check URL parameters for SEO and direct deep linking (e.g. ?class=10 or ?q=maths)
+    const urlParams = new URLSearchParams(window.location.search);
+    const qClass = urlParams.get('class');
+    const qSearch = urlParams.get('q') || urlParams.get('search');
+    
+    if (qSearch && searchInput) {
+      searchInput.value = qSearch;
+      if (searchClear) searchClear.style.display = 'flex';
+    }
+
+    if (qClass) {
+      if (selectClass) selectClass.value = qClass;
+      onClassSelected(qClass);
+    } else {
+      applyFilters();
+    }
   });
 
   // Listen for storage events (if admin publishes/uploads a book in another tab)
@@ -182,12 +118,12 @@
       window.supabase.createClient(window.SUPABASE_URL || 'https://wumdbpyhpblvgjttsbpv.supabase.co', window.SUPABASE_ANON_KEY || 'sb_publishable_xLqKY9N62MXb6ELG-5trig_RlJs_n-l') : null);
   }
 
-  // --- 1. LOAD STRICTLY PUBLISHED BOOKS ---
+  // --- 1. LOAD MASTER PUBLISHED BOOKS ---
   async function loadPublishedBooks() {
     let published = [];
     let localBooks = [];
 
-    // 1. Read LocalStorage (cached/synced books)
+    // 1. Read LocalStorage (cached/synced admin books)
     try {
       const local = localStorage.getItem('wg_admin_books');
       if (local) {
@@ -198,7 +134,7 @@
       console.warn('[BooksEngine] Error reading local admin books:', e);
     }
 
-    // 2. Fetch from Supabase `ncert_books` table (primary source of truth)
+    // 2. Fetch from Supabase `ncert_books` table
     try {
       const supabase = getSupabase();
       if (supabase) {
@@ -210,11 +146,14 @@
             subject: item.subject,
             book: item.book_title || item.book,
             book_title: item.book_title || item.book,
+            code: item.code || '',
+            chapters_count: item.chapters_count || 14,
             subbook: item.subbook || item.chapter_name || 'Full Book',
             chapter_name: item.chapter_name || item.subbook || 'Full Book',
             edition: item.edition || 'Rationalised 2024-25 Edition',
             language: item.language || 'English',
             pdf_url: item.pdf_url || item.download_url,
+            zip_url: item.zip_url || '',
             cover_url: item.cover_url || '',
             color: item.color || '#6366f1',
             file_size: item.file_size || 'PDF Document',
@@ -226,11 +165,10 @@
       console.warn('[BooksEngine] Supabase fetch notice:', err);
     }
 
-    // 3. Merge: Local books (especially newly added uploads) take top priority
+    // 3. Merge: Local books (latest admin uploads) take top priority
     let merged = [];
     const seenIds = new Set();
 
-    // First add local books (latest uploads)
     localBooks.forEach(b => {
       if (b && b.id && !seenIds.has(String(b.id))) {
         seenIds.add(String(b.id));
@@ -242,7 +180,6 @@
       }
     });
 
-    // Then add cloud books
     published.forEach(b => {
       if (b && b.id && !seenIds.has(String(b.id))) {
         seenIds.add(String(b.id));
@@ -250,12 +187,23 @@
       }
     });
 
-    // If completely empty, seed with verified NCERT defaults
-    if (merged.length === 0) {
-      merged = DEFAULT_NCERT_BOOKS;
-      try {
-        localStorage.setItem('wg_admin_books', JSON.stringify(merged));
-      } catch(e) {}
+    // 4. Merge Official NCERT Master Catalog (1,246+ Textbooks across Classes 1 to 12)
+    if (Array.isArray(window.NCERT_MASTER_CATALOG)) {
+      window.NCERT_MASTER_CATALOG.forEach(b => {
+        if (b && b.id && !seenIds.has(String(b.id))) {
+          seenIds.add(String(b.id));
+          const localPdf = LOCAL_PDFS[b.code];
+          if (localPdf) {
+            merged.push({
+              ...b,
+              local_pdf: localPdf,
+              pdf_url: localPdf
+            });
+          } else {
+            merged.push(b);
+          }
+        }
+      });
     }
 
     allBooks = merged;
@@ -263,7 +211,6 @@
 
   // --- 2. DYNAMICALLY REFRESH CLASS CONTROLS ---
   function refreshClassControls() {
-    // 1. Refresh Step 1 Select Options based on available published books
     if (selectClass) {
       const previousValue = selectClass.value;
       selectClass.innerHTML = '<option value="">All Classes (Choose Class)...</option>';
@@ -273,14 +220,13 @@
         selectClass.disabled = true;
       } else {
         selectClass.disabled = false;
-        // Group and count books per class
         const classCounts = {};
         allBooks.forEach(b => {
           const c = String(b.class).trim();
           classCounts[c] = (classCounts[c] || 0) + 1;
         });
 
-        // Numeric sort classes high-to-low (e.g. 12, 11, 10, 9...)
+        // Numeric sort classes: 12, 11, 10 ... 1
         const sortedClasses = Object.keys(classCounts).sort((a, b) => {
           const numA = parseInt(a, 10);
           const numB = parseInt(b, 10);
@@ -301,7 +247,7 @@
       }
     }
 
-    // 2. Refresh Quick Class Pills Row
+    // Refresh Quick Class Pills Row
     if (classPillsRow) {
       if (allBooks.length === 0) {
         classPillsRow.innerHTML = `<button type="button" class="class-pill active" data-class="all">All Classes (0)</button>`;
@@ -330,27 +276,27 @@
 
   // --- 3. EVENT LISTENERS ---
   function setupEventListeners() {
-    // Universal Search Bar input
     if (searchInput) {
       searchInput.addEventListener('input', () => {
         const q = searchInput.value.trim();
         if (searchClear) searchClear.style.display = q ? 'flex' : 'none';
+        visibleLimit = 48;
         applyFilters();
       });
 
-      // Enter key submits search smoothly
       searchInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
           e.preventDefault();
+          visibleLimit = 48;
           applyFilters();
         }
       });
     }
 
-    // Dedicated Search Books Button
     const btnBookSearch = document.getElementById('btn-book-search');
     if (btnBookSearch) {
       btnBookSearch.addEventListener('click', () => {
+        visibleLimit = 48;
         applyFilters();
         if (booksGrid) {
           booksGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -358,17 +304,16 @@
       });
     }
 
-    // Search clear button
     if (searchClear) {
       searchClear.addEventListener('click', () => {
         if (searchInput) searchInput.value = '';
         searchClear.style.display = 'none';
+        visibleLimit = 48;
         applyFilters();
         if (searchInput) searchInput.focus();
       });
     }
 
-    // Quick Search Tags (e.g. Class 10, Science, Maths, Physics)
     if (searchTagsHint) {
       searchTagsHint.addEventListener('click', (e) => {
         const chip = e.target.closest('.search-chip');
@@ -377,47 +322,50 @@
         if (searchInput) {
           searchInput.value = queryTerm;
           if (searchClear) searchClear.style.display = 'flex';
+          visibleLimit = 48;
           applyFilters();
           searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       });
     }
 
-    // Live Search Reset button in status bar
     if (btnClearSearchStatus) {
       btnClearSearchStatus.addEventListener('click', () => {
         if (searchInput) searchInput.value = '';
         if (searchClear) searchClear.style.display = 'none';
+        visibleLimit = 48;
         applyFilters();
       });
     }
 
-    // 4-Step Finder Dropdowns
     if (selectClass) {
       selectClass.addEventListener('change', () => {
+        visibleLimit = 48;
         onClassSelected(selectClass.value);
       });
     }
 
     if (selectSubject) {
       selectSubject.addEventListener('change', () => {
+        visibleLimit = 48;
         onSubjectSelected(selectSubject.value);
       });
     }
 
     if (selectBook) {
       selectBook.addEventListener('change', () => {
+        visibleLimit = 48;
         onBookSelected(selectBook.value);
       });
     }
 
     if (selectSubbook) {
       selectSubbook.addEventListener('change', () => {
+        visibleLimit = 48;
         applyFilters();
       });
     }
 
-    // Class Pills click delegation
     if (classPillsRow) {
       classPillsRow.addEventListener('click', (e) => {
         const pill = e.target.closest('.class-pill');
@@ -425,19 +373,18 @@
         document.querySelectorAll('.class-pill').forEach(p => p.classList.remove('active'));
         pill.classList.add('active');
         const cVal = pill.dataset.class;
+        visibleLimit = 48;
         if (selectClass) selectClass.value = (cVal === 'all') ? '' : cVal;
         onClassSelected(selectClass ? selectClass.value : '');
       });
     }
 
-    // Reset All Finder Filters
     if (btnReset) {
       btnReset.addEventListener('click', () => {
         window.resetBookFinder();
       });
     }
 
-    // PDF Modal Close events
     if (pdfModalClose) pdfModalClose.addEventListener('click', closePdfModal);
     if (pdfModal) {
       pdfModal.addEventListener('click', (e) => {
@@ -583,23 +530,17 @@
     const selectedBook = selectBook ? selectBook.value : '';
     const selectedSubbook = selectSubbook ? selectSubbook.value : '';
 
-    // Filter books
     filteredBooks = allBooks.filter(item => {
-      // If user typed in search bar or clicked Search Books, search across ALL books in the catalog!
       if (isSearching) {
         return matchesUniversalSearch(item, query);
       }
-
-      // If user has chosen guided finder filters (and query is empty)
       if (selectedClass && String(item.class) !== String(selectedClass)) return false;
       if (selectedSubject && item.subject !== selectedSubject) return false;
       if (selectedBook && (item.book !== selectedBook && item.book_title !== selectedBook)) return false;
       if (selectedSubbook && (item.subbook !== selectedSubbook && item.chapter_name !== selectedSubbook)) return false;
-
       return true;
     });
 
-    // Update live search status banner
     if (searchLiveStatus && searchStatusText) {
       if (isSearching) {
         searchLiveStatus.style.display = 'flex';
@@ -613,10 +554,6 @@
     renderGrid(filteredBooks);
   }
 
-  /**
-   * Smart Universal Search Matcher:
-   * Searches Class, Book Title, Subject, Chapter, Language, Edition, or any keyword.
-   */
   function matchesUniversalSearch(item, query) {
     if (!query) return true;
 
@@ -626,9 +563,8 @@
     const ch = String(item.subbook || item.chapter_name || '').trim().toLowerCase();
     const ed = String(item.edition || '').trim().toLowerCase();
     const lang = String(item.language || '').trim().toLowerCase();
-    const size = String(item.file_size || '').trim().toLowerCase();
+    const code = String(item.code || '').trim().toLowerCase();
 
-    // Generate class search aliases (e.g. 10, class 10, class10, 10th)
     const classAliases = [
       cls,
       `class ${cls}`,
@@ -642,39 +578,31 @@
       `${cls}rd`
     ].join(' ').toLowerCase();
 
-    // Map common subject aliases (e.g. maths -> mathematics, sci -> science)
     let extraSubjectAliases = '';
-    if (sub.includes('math') || bk.includes('math')) extraSubjectAliases += ' maths mathematics math arithmetic algebra geometry';
-    if (sub.includes('science') || bk.includes('science')) extraSubjectAliases += ' sci science natural science';
-    if (sub.includes('physics') || bk.includes('physics')) extraSubjectAliases += ' phy physics';
-    if (sub.includes('chemistry') || bk.includes('chemistry')) extraSubjectAliases += ' chem chemistry';
-    if (sub.includes('biology') || bk.includes('biology')) extraSubjectAliases += ' bio biology';
+    if (sub.includes('math') || bk.includes('math')) extraSubjectAliases += ' maths mathematics math arithmetic algebra geometry ganit';
+    if (sub.includes('science') || bk.includes('science')) extraSubjectAliases += ' sci science natural science vigyan';
+    if (sub.includes('physics') || bk.includes('physics')) extraSubjectAliases += ' phy physics bhautiki';
+    if (sub.includes('chemistry') || bk.includes('chemistry')) extraSubjectAliases += ' chem chemistry rasayan';
+    if (sub.includes('biology') || bk.includes('biology')) extraSubjectAliases += ' bio biology jeev vigyan';
     if (sub.includes('social') || sub.includes('history') || sub.includes('geography')) extraSubjectAliases += ' sst social science history civics geography economics';
     if (sub.includes('english') || bk.includes('english')) extraSubjectAliases += ' eng english honeycomb beehive hornbill flamingo first flight footprint';
     if (sub.includes('hindi') || bk.includes('hindi')) extraSubjectAliases += ' hin hindi sparsh sanchayan kshitij kritika vasant rimjhim';
-    if (sub.includes('computer') || bk.includes('computer')) extraSubjectAliases += ' cs computer science informatics practices it';
-    if (sub.includes('sanskrit') || bk.includes('sanskrit')) extraSubjectAliases += ' sanskrit shemushi ruchira';
 
-    const haystack = `${classAliases} ${sub} ${extraSubjectAliases} ${bk} ${ch} ${ed} ${lang} ${size}`.toLowerCase();
+    const haystack = `${classAliases} ${sub} ${extraSubjectAliases} ${bk} ${ch} ${ed} ${lang} ${code}`.toLowerCase();
 
-    // 1. Direct whole-string match
     if (haystack.includes(query)) return true;
 
-    // 2. Multi-word token match (every word must match something in the book record)
     const tokens = query.split(/\s+/).filter(Boolean);
     if (tokens.length > 1) {
-      const allTokensPresent = tokens.every(tok => {
-        // Special case for class tokens like "10" or "class"
+      return tokens.every(tok => {
         if (tok === 'class' || tok === 'book' || tok === 'ncert' || tok === 'cbse') return true;
         return haystack.includes(tok);
       });
-      if (allTokensPresent) return true;
     }
 
     return false;
   }
 
-  // Update Summary Headline
   function updateSummaryBar(c, s, b, sb, isSearching, query) {
     if (!resultsCount) return;
     resultsCount.textContent = `${filteredBooks.length} book${filteredBooks.length !== 1 ? 's' : ''} available`;
@@ -699,11 +627,11 @@
       if (catalogTitle) catalogTitle.textContent = `Results for ${parts[0]}` + (s ? ` (${s})` : '');
     } else {
       if (finderSummary) finderSummary.style.display = 'none';
-      if (catalogTitle) catalogTitle.textContent = 'All Published NCERT Textbooks & Chapters';
+      if (catalogTitle) catalogTitle.textContent = 'All Official NCERT Textbooks (Classes 1 to 12)';
     }
   }
 
-  // --- 5. RENDER BOOKS GRID ---
+  // --- 5. RENDER BOOKS GRID WITH BATCH PAGINATION ---
   function renderGrid(books) {
     if (!booksGrid) return;
 
@@ -711,11 +639,8 @@
       booksGrid.innerHTML = `
         <div class="empty-books-state">
           <div class="icon">📚</div>
-          <h4>No Books Published Yet</h4>
-          <p>Currently, there are no books published in the library. As soon as books or chapters are uploaded via <strong>Admin Books Studio</strong>, they will instantly appear here for reading and downloading.</p>
-          <a href="index.html" class="btn-book-read" style="display:inline-flex; width:auto; margin:0 auto; text-decoration:none;">
-            ← Back to Home
-          </a>
+          <h4>Loading Official NCERT Books Library...</h4>
+          <p>Connecting to master textbook repository for Classes 1 to 12.</p>
         </div>
       `;
       return;
@@ -726,7 +651,7 @@
         <div class="empty-books-state">
           <div class="icon">🔍</div>
           <h4>No matching books found</h4>
-          <p>We couldn't find any published textbooks matching your search criteria. Try a different class number, book name, or reset your filters.</p>
+          <p>We couldn't find any textbooks matching your search criteria. Try a different class number, book name, or reset your filters.</p>
           <button type="button" class="btn-book-read" style="display:inline-flex; width:auto; margin:0 auto;" onclick="window.resetBookFinder()">
             ↺ Clear Filters &amp; Show All Books
           </button>
@@ -735,19 +660,27 @@
       return;
     }
 
-    booksGrid.innerHTML = books.map(book => {
+    const visibleBooks = books.slice(0, visibleLimit);
+
+    booksGrid.innerHTML = visibleBooks.map(book => {
       const coverHtml = book.cover_url ?
-        `<div class="book-cover-art" style="background-image:url('${escapeHtml(book.cover_url)}');"></div>` :
+        `<div class="book-cover-art" style="background-image:url('${escapeHtml(book.cover_url)}');" referrerpolicy="no-referrer"></div>` :
         `<div class="book-cover-art" style="background: linear-gradient(135deg, ${book.color || '#4f46e5'}, #1e1b4b);">
            <span class="book-cover-badge">NCERT • Class ${escapeHtml(book.class)}</span>
            <div class="book-cover-title">${escapeHtml(book.book)}</div>
          </div>`;
 
+      const zipBtnHtml = book.zip_url ? `
+        <a href="${escapeHtml(book.zip_url)}" download target="_blank" rel="noopener noreferrer" class="btn-book-download" style="padding: 0.65rem 0.5rem; font-size: 0.8rem;" title="Download Complete Official Book ZIP">
+          📦 Full ZIP
+        </a>
+      ` : '';
+
       return `
         <article class="book-card" data-id="${escapeHtml(book.id)}">
           <div class="book-cover-area">
             ${coverHtml}
-            <span class="book-badge-verified">✓ Published</span>
+            <span class="book-badge-verified">✓ Official NCERT</span>
           </div>
 
           <div class="book-body">
@@ -761,8 +694,8 @@
             <div class="book-chapter-name">${escapeHtml(book.subbook)}</div>
 
             <div class="book-meta-footer">
-              <span>📅 ${escapeHtml(book.edition || 'NCERT')}</span>
-              <span>💾 ${escapeHtml(book.file_size || 'PDF Document')}</span>
+              <span>📅 ${escapeHtml(book.edition || 'NCERT 2024-25')}</span>
+              <span>💾 ${escapeHtml(book.file_size || 'Official PDF')}</span>
             </div>
 
             <div class="book-actions">
@@ -772,33 +705,140 @@
               </button>
               <a href="${escapeHtml(book.pdf_url)}" target="_blank" rel="noopener noreferrer" download class="btn-book-download" onclick="window.onBookDownload(event, '${escapeHtml(book.id)}')">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                Download
+                PDF
               </a>
+              ${zipBtnHtml}
             </div>
           </div>
         </article>
       `;
     }).join('');
+
+    // Load More Button
+    if (books.length > visibleLimit) {
+      const loadMoreContainer = document.createElement('div');
+      loadMoreContainer.style.gridColumn = '1 / -1';
+      loadMoreContainer.style.textAlign = 'center';
+      loadMoreContainer.style.padding = '2rem 0 3rem';
+      loadMoreContainer.innerHTML = `
+        <button type="button" id="btn-load-more-books" class="btn-book-read" style="margin: 0 auto; padding: 0.85rem 2.2rem; font-size: 0.95rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(99,102,241,0.3);">
+          <span>📚 Load More Books (Showing ${visibleLimit} of ${books.length})</span>
+        </button>
+      `;
+      booksGrid.appendChild(loadMoreContainer);
+
+      const btnLoadMore = document.getElementById('btn-load-more-books');
+      if (btnLoadMore) {
+        btnLoadMore.addEventListener('click', () => {
+          visibleLimit += 48;
+          renderGrid(books);
+        });
+      }
+    }
   }
 
-  // --- 6. PDF READER MODAL ---
+  // --- 6. ADVANCED PDF READER & DIRECT DOWNLOAD MODAL ---
   window.openBookReader = function (bookId) {
     const book = allBooks.find(b => b.id === bookId);
     if (!book) return;
 
+    const bookTitle = book.book_title || book.book || 'NCERT Textbook';
+    const bookClass = book.class || '';
+    const chapterCount = Math.max(book.chapters_count || 14, 1);
+    const code = book.code || '';
+
     if (pdfModalTitle) {
-      pdfModalTitle.textContent = `Class ${book.class} • ${book.book} (${book.subbook})`;
-    }
-    if (pdfModalNewtab) pdfModalNewtab.href = book.pdf_url;
-    if (pdfModalDownload) pdfModalDownload.href = book.pdf_url;
-
-    // Direct embed or Google Docs viewer wrapper for external URLs
-    let viewerSrc = book.pdf_url;
-    if (viewerSrc.startsWith('http') && !viewerSrc.includes(window.location.hostname)) {
-      viewerSrc = `https://docs.google.com/viewer?url=${encodeURIComponent(book.pdf_url)}&embedded=true`;
+      pdfModalTitle.textContent = `Class ${bookClass} • ${bookTitle}`;
     }
 
-    if (pdfViewerFrame) pdfViewerFrame.src = viewerSrc;
+    const pdfModalChapterSelect = document.getElementById('pdf-modal-chapter-select');
+    const pdfModalNewtab = document.getElementById('pdf-modal-newtab');
+    const pdfModalDownload = document.getElementById('pdf-modal-download');
+    const pdfModalZip = document.getElementById('pdf-modal-zip');
+    const pdfViewerFrame = document.getElementById('pdf-viewer-frame');
+    const pdfFallbackBanner = document.getElementById('pdf-fallback-banner');
+    const fallbackBookHeading = document.getElementById('fallback-book-heading');
+    const fallbackBtnRead = document.getElementById('fallback-btn-read');
+    const fallbackBtnDownload = document.getElementById('fallback-btn-download');
+    const fallbackBtnZip = document.getElementById('fallback-btn-zip');
+
+    if (pdfModalChapterSelect) {
+      pdfModalChapterSelect.innerHTML = '';
+      
+      const optPrelims = document.createElement('option');
+      optPrelims.value = 'ps';
+      optPrelims.textContent = 'Prelims (Index & Syllabus)';
+      pdfModalChapterSelect.appendChild(optPrelims);
+
+      for (let ch = 1; ch <= chapterCount; ch++) {
+        const opt = document.createElement('option');
+        const chFormatted = String(ch).padStart(2, '0');
+        opt.value = chFormatted;
+        opt.textContent = `Chapter ${ch}`;
+        if (ch === 1) opt.selected = true;
+        pdfModalChapterSelect.appendChild(opt);
+      }
+
+      pdfModalChapterSelect.onchange = function() {
+        const chosen = pdfModalChapterSelect.value;
+        updateModalUrls(chosen);
+      };
+    }
+
+    function updateModalUrls(chapterSuffix) {
+      let currentPdfUrl = book.pdf_url;
+      if (code) {
+        if (chapterSuffix === 'ps') {
+          currentPdfUrl = `https://ncert.nic.in/textbook/pdf/${code}ps.pdf`;
+        } else {
+          if (chapterSuffix === '01' && book.local_pdf) {
+            currentPdfUrl = book.local_pdf;
+          } else {
+            currentPdfUrl = `https://ncert.nic.in/textbook/pdf/${code}${chapterSuffix}.pdf`;
+          }
+        }
+      }
+
+      const zipUrl = book.zip_url || (code ? `https://ncert.nic.in/textbook/pdf/${code}dd.zip` : '');
+
+      if (pdfModalNewtab) pdfModalNewtab.href = currentPdfUrl;
+      if (pdfModalDownload) pdfModalDownload.href = currentPdfUrl;
+      if (pdfModalZip) {
+        if (zipUrl) {
+          pdfModalZip.href = zipUrl;
+          pdfModalZip.style.display = 'inline-flex';
+        } else {
+          pdfModalZip.style.display = 'none';
+        }
+      }
+
+      const chapterName = (pdfModalChapterSelect && pdfModalChapterSelect.options[pdfModalChapterSelect.selectedIndex]) ?
+        pdfModalChapterSelect.options[pdfModalChapterSelect.selectedIndex].text : `Chapter ${chapterSuffix}`;
+
+      if (fallbackBookHeading) fallbackBookHeading.textContent = `Class ${bookClass} • ${bookTitle} (${chapterName})`;
+      if (fallbackBtnRead) fallbackBtnRead.href = currentPdfUrl;
+      if (fallbackBtnDownload) fallbackBtnDownload.href = currentPdfUrl;
+      if (fallbackBtnZip) fallbackBtnZip.href = zipUrl || '#';
+
+      if (book.local_pdf && (chapterSuffix === '01' || !chapterSuffix)) {
+        if (pdfViewerFrame) {
+          pdfViewerFrame.src = book.local_pdf;
+          pdfViewerFrame.style.display = 'block';
+        }
+        if (pdfFallbackBanner) pdfFallbackBanner.style.display = 'none';
+      } else {
+        if (pdfViewerFrame) {
+          pdfViewerFrame.src = currentPdfUrl;
+          pdfViewerFrame.style.display = 'block';
+        }
+        if (pdfFallbackBanner) {
+          pdfFallbackBanner.style.display = 'none';
+        }
+      }
+    }
+
+    updateModalUrls('01');
+
     if (pdfModal) pdfModal.classList.add('active');
     document.body.style.overflow = 'hidden';
   };
@@ -810,11 +850,12 @@
   }
 
   window.onBookDownload = function (e, bookId) {
-    showToast('Download started for NCERT PDF!');
+    showToast('Download started for official NCERT PDF!');
   };
 
   // --- 7. RESET FILTERS ---
   window.resetBookFinder = function () {
+    visibleLimit = 48;
     if (selectClass) selectClass.value = '';
     if (selectSubject) {
       selectSubject.innerHTML = '<option value="">Choose Class First</option>';

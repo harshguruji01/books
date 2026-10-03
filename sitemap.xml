@@ -12,6 +12,7 @@
   <!-- Website Name: HarshGuruJi                                    -->
   <!-- Main URL: https://www.webguruji.online                       -->
   <!-- Subdomain URL: https://books.webguruji.online/               -->
+  <!-- Total Textbooks Indexed: 1,246+ (Classes 1 to 12)             -->
   <!-- ============================================================ -->
 
   <!-- BOOKS HOMEPAGE -->
@@ -43,6 +44,80 @@
       <image:title>HarshGuruJi NCERT Digital Books Catalogue</image:title>
       <image:caption>Read and download NCERT Class 1-12 English and Hindi medium textbooks on HarshGuruJi</image:caption>
     </image:image>
+  </url>
+
+  <!-- CLASS-SPECIFIC DIRECT SEARCH INDEXES -->
+  <url>
+    <loc>https://books.webguruji.online/books.html?class=12</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://books.webguruji.online/books.html?class=11</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://books.webguruji.online/books.html?class=10</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://books.webguruji.online/books.html?class=9</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://books.webguruji.online/books.html?class=8</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://books.webguruji.online/books.html?class=7</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://books.webguruji.online/books.html?class=6</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://books.webguruji.online/books.html?class=5</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://books.webguruji.online/books.html?class=4</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://books.webguruji.online/books.html?class=3</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://books.webguruji.online/books.html?class=2</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://books.webguruji.online/books.html?class=1</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.75</priority>
   </url>
 
 </urlset>

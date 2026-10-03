@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <li><a href="#step-box-class" onclick="window.scrollToSection('step-box-class')">4-Step Book Finder</a></li>
               <li><a href="#books-grid" onclick="window.scrollToSection('books-grid')">Available Textbooks</a></li>
               <li><a href="javascript:void(0)" onclick="window.focusBookSearch()">Search Library</a></li>
-              <li><a href="adminbooks.html">Admin Books Studio</a></li>
+              <li><a href="#class-pills-row" onclick="window.scrollToSection('class-pills-row')">NCERT Quick Filter</a></li>
             </ul>
           </div>
           <div class="hg-footer-col">

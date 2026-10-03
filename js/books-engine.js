@@ -833,12 +833,24 @@
         }
         if (pdfFallbackBanner) pdfFallbackBanner.style.display = 'none';
       } else {
-        if (pdfViewerFrame) {
-          pdfViewerFrame.src = currentPdfUrl;
-          pdfViewerFrame.style.display = 'block';
-        }
-        if (pdfFallbackBanner) {
-          pdfFallbackBanner.style.display = 'none';
+        // Show fallback first for NCERT URLs (which block iframes)
+        // Try to embed, but show fallback banner by default for NCERT links
+        const isNcertUrl = currentPdfUrl.includes('ncert.nic.in');
+        if (isNcertUrl) {
+          // Show fallback banner immediately with links since NCERT blocks iframe embedding
+          if (pdfFallbackBanner) {
+            pdfFallbackBanner.style.display = 'flex';
+          }
+          if (pdfViewerFrame) {
+            pdfViewerFrame.style.display = 'none';
+            pdfViewerFrame.src = 'about:blank';
+          }
+        } else {
+          if (pdfViewerFrame) {
+            pdfViewerFrame.src = currentPdfUrl;
+            pdfViewerFrame.style.display = 'block';
+          }
+          if (pdfFallbackBanner) pdfFallbackBanner.style.display = 'none';
         }
       }
     }

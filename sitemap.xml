@@ -46,6 +46,19 @@
     </image:image>
   </url>
 
+  <!-- FOUNDER & OWNER OFFICIAL PROFILE -->
+  <url>
+    <loc>https://books.webguruji.online/owner.html</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://books.webguruji.online/harshlogo.png</image:loc>
+      <image:title>Harsh Patel (HarshGuruJi) — Platform Founder</image:title>
+      <image:caption>Official founder profile, achievements, and social channels of HarshGuruJi</image:caption>
+    </image:image>
+  </url>
+
   <!-- CLASS-SPECIFIC DIRECT SEARCH INDEXES -->
   <url>
     <loc>https://books.webguruji.online/books.html?class=12</loc>

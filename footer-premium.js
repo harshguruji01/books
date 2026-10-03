@@ -79,13 +79,15 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
 
       <div class="hg-footer-bottom">
-        <div style="display: flex; align-items: center; gap: 1.25rem;">
-          <img src="harshlogo.png" loading="lazy" alt="Harsh Patel – Founder" style="height: 52px; width: auto; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);" />
-          <div>
-            <strong style="color: var(--text-primary, #fff); font-size: 1.05rem; display: block; margin-bottom: 0.2rem;">Harsh Patel</strong>
-            <span style="color: var(--bnav-primary, #6366f1); font-size: 0.82rem; font-weight: 600; display: block;">Founder &amp; Developer</span>
+        <a href="owner.html" class="hg-founder-link" title="Meet the Owner: Harsh Patel" aria-label="Harsh Patel Founder Profile">
+          <div class="hg-founder-avatar-wrap">
+            <img src="harshlogo.png" loading="lazy" alt="Harsh Patel – Founder" class="hg-founder-avatar" />
           </div>
-        </div>
+          <div class="hg-founder-info">
+            <span class="hg-founder-name-animated">Harsh Patel <span class="hg-golden-tick" title="Verified Creator & Founder">✓</span></span>
+            <span class="hg-founder-badge">Founder &amp; Owner</span>
+          </div>
+        </a>
         
         <p style="color: var(--text-secondary, #a1a1aa); font-size: 0.85rem; margin: 0;">
           &copy; <span id="hg-footer-year">${currentYear}</span> HarshGuruJi. All Rights Reserved. <br>

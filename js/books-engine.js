@@ -28,7 +28,13 @@
     'iemh1': 'pdf/iemh101.pdf',
     'hesc1': 'pdf/hesc101.pdf',
     'gesc1': 'pdf/gesc101.pdf',
-    'aemr1': 'pdf/aemr101.pdf'
+    'aemr1': 'pdf/aemr101.pdf',
+    'eemm1': 'pdf/eemm101.pdf',
+    'keph1': 'pdf/keph101.pdf',
+    'kech1': 'pdf/kech101.pdf',
+    'kemh1': 'pdf/kemh101.pdf',
+    'lemh1': 'pdf/lemh101.pdf',
+    'lebo1': 'pdf/lebo101.pdf'
   };
 
   // DOM Elements - Finder & Search

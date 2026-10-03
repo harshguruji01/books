@@ -75,47 +75,52 @@
   // --- 1. LOAD STRICTLY PUBLISHED BOOKS ---
   async function loadPublishedBooks() {
     let published = [];
+    let localBooks = [];
 
-    // 1. Read LocalStorage (saved via adminbooks.html)
+    // 1. Read LocalStorage (cached/synced books)
     try {
       const local = localStorage.getItem('wg_admin_books');
       if (local) {
         const parsed = JSON.parse(local);
-        if (Array.isArray(parsed)) published = parsed;
+        if (Array.isArray(parsed)) localBooks = parsed;
       }
     } catch (e) {
       console.warn('[BooksEngine] Error reading local admin books:', e);
     }
 
-    // 2. Fetch from Supabase `ncert_books` table
+    // 2. Fetch from Supabase `ncert_books` table (primary source of truth)
     try {
       const supabase = getSupabase();
       if (supabase) {
         const { data, error } = await supabase.from('ncert_books').select('*').order('created_at', { ascending: false });
-        if (!error && Array.isArray(data)) {
-          const existingIds = new Set(published.map(b => b.id));
-          data.forEach(item => {
-            if (!existingIds.has(item.id)) {
-              published.push({
-                id: item.id,
-                class: String(item.class),
-                subject: item.subject,
-                book: item.book_title || item.book,
-                subbook: item.subbook || item.chapter_name || 'Full Book',
-                edition: item.edition || 'Rationalised 2024-25 Edition',
-                language: item.language || 'English',
-                pdf_url: item.pdf_url || item.download_url,
-                cover_url: item.cover_url || '',
-                color: item.color || '#6366f1',
-                file_size: item.file_size || 'PDF Document',
-                created_at: item.created_at
-              });
-            }
-          });
+        if (!error && Array.isArray(data) && data.length > 0) {
+          published = data.map(item => ({
+            id: item.id,
+            class: String(item.class),
+            subject: item.subject,
+            book: item.book_title || item.book,
+            subbook: item.subbook || item.chapter_name || 'Full Book',
+            edition: item.edition || 'Rationalised 2024-25 Edition',
+            language: item.language || 'English',
+            pdf_url: item.pdf_url || item.download_url,
+            cover_url: item.cover_url || '',
+            color: item.color || '#6366f1',
+            file_size: item.file_size || 'PDF Document',
+            created_at: item.created_at
+          }));
+          // Keep localStorage up to date with fresh database records
+          try {
+            localStorage.setItem('wg_admin_books', JSON.stringify(published));
+          } catch(e) {}
         }
       }
     } catch (err) {
       console.warn('[BooksEngine] Supabase fetch notice:', err);
+    }
+
+    // If Supabase returned nothing or offline, use local cache
+    if (published.length === 0 && localBooks.length > 0) {
+      published = localBooks;
     }
 
     // STRICT: Only published books

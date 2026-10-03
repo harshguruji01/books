@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </ul>
           </div>
           <div class="hg-footer-col">
-            <h5>WebGuruJi Network</h5>
+            <h5>HarshGuruJi Network</h5>
             <ul>
               <li><a href="https://www.webguruji.online" target="_blank" rel="noopener noreferrer">Main Portal ↗</a></li>
               <li><a href="https://store.webguruji.online" target="_blank" rel="noopener noreferrer">Apps &amp; Software Store ↗</a></li>

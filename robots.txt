@@ -1,7 +1,9 @@
 # ═══════════════════════════════════════════════════════════
 # robots.txt — books.webguruji.online (Books Subdomain)
-# HarshGuruJi — NCERT Books & Textbooks Digital Library
-# Last Updated: 2026-10-02
+# Website Name: HarshGuruJi
+# Main URL: https://www.webguruji.online
+# Subdomain: https://books.webguruji.online
+# Description: Official NCERT Books & Textbooks Digital Library
 # ═══════════════════════════════════════════════════════════
 
 User-agent: *
@@ -10,21 +12,13 @@ Allow: /
 # ── Public Pages ──────────────────────────────────────────
 Allow: /index.html
 Allow: /books.html
-Allow: /learning/
-Allow: /education.html
-Allow: /learning-hub.html
-Allow: /learning.html
-Allow: /about.html
-Allow: /contact.html
-Allow: /cookie.html
-Allow: /privacy-policy.html
-Allow: /terms-and-conditions.html
 
 # ── Static Assets (for image/rich snippet indexing) ──────
 Allow: /css/
 Allow: /js/
 Allow: /logo.png
 Allow: /logo-512.png
+Allow: /logo-192.png
 Allow: /favicon.ico
 Allow: /harshlogo.png
 Allow: /harshlogo.webp
@@ -37,26 +31,13 @@ Disallow: /adminbooks.html
 Disallow: /admin-*.html
 Disallow: /dashboard.html
 Disallow: /settings.html
-Disallow: /backend/
-Disallow: /backend_legacy/
 Disallow: /node_modules/
-Disallow: /scripts/
-Disallow: /data/
-Disallow: /*.py$
 Disallow: /*.sql$
 Disallow: /*.md$
 Disallow: /*.json$
 
-# ── Crawl-delay ───────────────────────────────────────────
-User-agent: AhrefsBot
-Crawl-delay: 10
-
-User-agent: SemrushBot
-Crawl-delay: 10
-
 # ── Sitemaps ─────────────────────────────────────────────
 Sitemap: https://books.webguruji.online/sitemap.xml
-Sitemap: https://books.webguruji.online/sitemap_index.xml
 
 # ── Cross-domain Sitemaps (for unified Google indexing) ──
 Sitemap: https://www.webguruji.online/sitemap.xml

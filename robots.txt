@@ -3,27 +3,37 @@
 # Website Name: HarshGuruJi
 # Main URL: https://www.webguruji.online
 # Subdomain: https://books.webguruji.online
-# Description: Official NCERT Books & Textbooks Digital Library
+# Description: HarshGuruJi Official NCERT Books & Textbooks Digital Library
+# Last Updated: 2026-10-03
 # ═══════════════════════════════════════════════════════════
 
 User-agent: *
 Allow: /
 
-# ── Public Pages ──────────────────────────────────────────
+# ── Public Books Pages ─────────────────────────────────────
 Allow: /index.html
 Allow: /books.html
 
-# ── Static Assets (for image/rich snippet indexing) ──────
+# ── Static Assets (CSS, JS, Images for Rich Snippets) ──────
 Allow: /css/
 Allow: /js/
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.webp$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.svg$
+Allow: /*.ico$
 Allow: /logo.png
 Allow: /logo-512.png
 Allow: /logo-192.png
 Allow: /favicon.ico
 Allow: /harshlogo.png
 Allow: /harshlogo.webp
+Allow: /manifest.json
 
-# ── Disallow: Admin & Private Areas ───────────────────────
+# ── Disallow: Admin & Private Endpoints ────────────────────
 Disallow: /admin*
 Disallow: /admin/
 Disallow: /admin.html
@@ -36,10 +46,38 @@ Disallow: /*.sql$
 Disallow: /*.md$
 Disallow: /*.json$
 
-# ── Sitemaps ─────────────────────────────────────────────
-Sitemap: https://books.webguruji.online/sitemap.xml
+# ── Googlebot & Image Crawlers ─────────────────────────────
+User-agent: Googlebot
+Allow: /
+Allow: /index.html
+Allow: /books.html
+Allow: /css/
+Allow: /js/
 
-# ── Cross-domain Sitemaps (for unified Google indexing) ──
+User-agent: Googlebot-Image
+Allow: /logo.png
+Allow: /logo-512.png
+Allow: /logo-192.png
+Allow: /favicon.ico
+Allow: /harshlogo.png
+Allow: /harshlogo.webp
+
+User-agent: Bingbot
+Allow: /
+Allow: /books.html
+Allow: /css/
+Allow: /js/
+
+# ── Aggressive Bot Rate Limiting ───────────────────────────
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+# ── Primary & Network Sitemaps ─────────────────────────────
+Sitemap: https://books.webguruji.online/sitemap.xml
+Sitemap: https://books.webguruji.online/sitemap_index.xml
 Sitemap: https://www.webguruji.online/sitemap.xml
 Sitemap: https://store.webguruji.online/sitemap.xml
 Sitemap: https://chat.webguruji.online/sitemap.xml

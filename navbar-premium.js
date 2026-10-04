@@ -1,26 +1,18 @@
 /**
  * ============================================================================
- * WEBGURUJI / HARSHGURUJI — NCERT BOOKS LIBRARY PREMIUM NAVIGATION ENGINE
+ * HARSHGURUJI BOOKS — PREMIUM NAVIGATION ENGINE
  * Dedicated Navigation Controller for books.webguruji.online & books.html
- * Features:
- *  - Responsive Desktop Frosted Glass Bar & Mobile Floating Dock
- *  - Interactive Class Picker (Classes 1 to 12) with instant in-page filtering
- *  - Deep linking support (?class=10, ?search=science)
- *  - Instant Search shortcut (Ctrl + K / ⌘K)
- *  - Real-time Scroll-Spy section highlighting
+ * Fully unified with HarshGuruJi ecosystem & fixed mobile bottom navigation
  * ============================================================================
  */
 
 (function () {
   'use strict';
 
-  // Context-aware page path resolution
   const isBooksPage = window.location.pathname.endsWith('books.html') || 
                       window.location.pathname.endsWith('/') || 
                       window.location.pathname.endsWith('index.html') ||
                       window.location.pathname === '';
-  
-  const booksPageUrl = isBooksPage ? '#top' : 'books.html';
 
   document.addEventListener('DOMContentLoaded', () => {
     initBooksNavigation();
@@ -31,10 +23,10 @@
 
   function initBooksNavigation() {
     // Remove old conflicting navbars if present
-    document.querySelectorAll('.books-nav-header, .books-bottom-dock, .books-sheet-overlay, .hg-header, #hg-global-navbar, #hg-bottom-bar, .premium-navbar').forEach(el => el.remove());
+    document.querySelectorAll('.books-nav-header, .books-bottom-dock, .books-sheet-overlay, .hg-header, #hg-global-navbar, #hg-bottom-bar, .hg-bottom-bar, .premium-navbar').forEach(el => el.remove());
 
     const navHTML = `
-      <!-- Desktop & Tablet Top Sticky Navigation -->
+      <!-- Desktop & Tablet Top Fixed Navigation -->
       <header class="books-nav-header" id="books-nav-header" role="banner" aria-label="Books Main Navigation">
         <div class="books-nav-container">
           
@@ -51,9 +43,9 @@
             </div>
           </a>
 
-          <!-- Desktop Center Navigation Links -->
+          <!-- Desktop Center Navigation Links (Clean, Unified Ecosystem) -->
           <nav class="books-nav-center" aria-label="Desktop Navigation Links">
-            <a href="${isBooksPage ? '#top' : 'books.html'}" class="books-nav-link active" id="dnav-link-home">
+            <a href="https://www.webguruji.online/" class="books-nav-link" id="dnav-link-home">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                 <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -61,109 +53,45 @@
               <span>Home</span>
             </a>
 
-            <!-- Quick Classes Mega Dropdown (Class 1 to 12) -->
-            <div class="books-dropdown-wrap" id="books-classes-dropdown-wrap">
-              <button type="button" class="books-dropdown-btn" id="btn-classes-dropdown" aria-haspopup="true" aria-expanded="false">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
-                  <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
-                </svg>
-                <span>Classes 1–12</span>
-                <svg class="books-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                  <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
-              </button>
-
-              <div class="books-mega-menu" id="books-classes-mega-menu" role="menu">
-                <div class="books-mega-header">
-                  <div class="books-mega-title">
-                    <span>📚</span> Select NCERT Class
-                  </div>
-                  <button type="button" class="books-mega-all-btn" onclick="window.selectBookClass('all')">
-                    All Classes View
-                  </button>
-                </div>
-
-                <div class="books-classes-grid">
-                  <!-- Senior Secondary -->
-                  <div class="books-class-card" onclick="window.selectBookClass('12')" role="menuitem" tabindex="0">
-                    <span class="books-class-tag">Board</span>
-                    <span class="books-class-num">12</span>
-                    <span class="books-class-label">Class 12</span>
-                  </div>
-                  <div class="books-class-card" onclick="window.selectBookClass('11')" role="menuitem" tabindex="0">
-                    <span class="books-class-num">11</span>
-                    <span class="books-class-label">Class 11</span>
-                  </div>
-                  <!-- Secondary -->
-                  <div class="books-class-card" onclick="window.selectBookClass('10')" role="menuitem" tabindex="0">
-                    <span class="books-class-tag">Board</span>
-                    <span class="books-class-num">10</span>
-                    <span class="books-class-label">Class 10</span>
-                  </div>
-                  <div class="books-class-card" onclick="window.selectBookClass('9')" role="menuitem" tabindex="0">
-                    <span class="books-class-num">9</span>
-                    <span class="books-class-label">Class 9</span>
-                  </div>
-                  <!-- Middle School -->
-                  <div class="books-class-card" onclick="window.selectBookClass('8')" role="menuitem" tabindex="0">
-                    <span class="books-class-num">8</span>
-                    <span class="books-class-label">Class 8</span>
-                  </div>
-                  <div class="books-class-card" onclick="window.selectBookClass('7')" role="menuitem" tabindex="0">
-                    <span class="books-class-num">7</span>
-                    <span class="books-class-label">Class 7</span>
-                  </div>
-                  <div class="books-class-card" onclick="window.selectBookClass('6')" role="menuitem" tabindex="0">
-                    <span class="books-class-num">6</span>
-                    <span class="books-class-label">Class 6</span>
-                  </div>
-                  <div class="books-class-card" onclick="window.selectBookClass('5')" role="menuitem" tabindex="0">
-                    <span class="books-class-num">5</span>
-                    <span class="books-class-label">Class 5</span>
-                  </div>
-                  <!-- Primary -->
-                  <div class="books-class-card" onclick="window.selectBookClass('4')" role="menuitem" tabindex="0">
-                    <span class="books-class-num">4</span>
-                    <span class="books-class-label">Class 4</span>
-                  </div>
-                  <div class="books-class-card" onclick="window.selectBookClass('3')" role="menuitem" tabindex="0">
-                    <span class="books-class-num">3</span>
-                    <span class="books-class-label">Class 3</span>
-                  </div>
-                  <div class="books-class-card" onclick="window.selectBookClass('2')" role="menuitem" tabindex="0">
-                    <span class="books-class-num">2</span>
-                    <span class="books-class-label">Class 2</span>
-                  </div>
-                  <div class="books-class-card" onclick="window.selectBookClass('1')" role="menuitem" tabindex="0">
-                    <span class="books-class-num">1</span>
-                    <span class="books-class-label">Class 1</span>
-                  </div>
-                </div>
-
-                <div class="books-mega-footer">
-                  <span>⚡ Instant Filter • Direct Chapter PDFs</span>
-                  <a href="#class-pills-row" onclick="window.scrollToSection('class-pills-row')">Quick Class Row &darr;</a>
-                </div>
-              </div>
-            </div>
-
-            <!-- 4-Step Book Finder -->
-            <a href="#step-box-class" class="books-nav-link" id="dnav-link-finder" onclick="window.scrollToSection('step-box-class')">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
-              </svg>
-              <span>Book Finder</span>
-            </a>
-
-            <!-- Textbooks Catalog -->
-            <a href="#books-grid" class="books-nav-link" id="dnav-link-catalog" onclick="window.scrollToSection('books-grid')">
+            <a href="${isBooksPage ? '#top' : 'books.html'}" class="books-nav-link active" id="dnav-link-books">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
                 <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
               </svg>
-              <span>Textbooks</span>
+              <span>Books Library</span>
+            </a>
+
+            <a href="https://www.webguruji.online/daily-special.html" class="books-nav-link" id="dnav-link-dailyspecial">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+              <span>Daily Special</span>
+            </a>
+
+            <a href="https://store.webguruji.online" target="_blank" rel="noopener noreferrer" class="books-nav-link" id="dnav-link-store" title="HarshGuruJi Store">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+              </svg>
+              <span>Store</span>
+            </a>
+
+            <a href="https://chat.webguruji.online" target="_blank" rel="noopener noreferrer" class="books-nav-link" id="dnav-link-chat" title="ChatBase AI">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+              </svg>
+              <span>Chat</span>
+            </a>
+
+            <a href="https://www.webguruji.online/contributor.html" class="books-nav-link" id="dnav-link-contributor">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <span>Contributor</span>
             </a>
           </nav>
 
@@ -180,383 +108,155 @@
             </button>
 
             <!-- Main Portal Link -->
-            <a href="https://www.webguruji.online" target="_blank" rel="noopener noreferrer" class="books-portal-pill" title="Go to Main WebGuruJi Portal">
-              <span>Main Portal</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                <polyline points="15 3 21 3 21 9"></polyline>
-                <line x1="10" y1="14" x2="21" y2="3"></line>
-              </svg>
+            <a href="https://www.webguruji.online" target="_blank" rel="noopener noreferrer" class="books-portal-pill" title="Go to Main HarshGuruJi Portal">
+              <span>Main Portal ↗</span>
             </a>
           </div>
 
         </div>
       </header>
 
-      <!-- Mobile Floating Glass Dock (<= 1024px) -->
-      <nav class="books-bottom-dock" id="books-bottom-dock" aria-label="Mobile Navigation Dock">
-        <button type="button" class="books-dock-item active" id="dock-btn-home" onclick="window.scrollToSection('top')">
-          <span class="books-dock-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-              <polyline points="9 22 9 12 15 12 15 22"></polyline>
-            </svg>
-          </span>
-          <span class="books-dock-label">Home</span>
-        </button>
-
-        <!-- Prominent Classes Picker Button -->
-        <button type="button" class="books-dock-item books-dock-item-primary" id="dock-btn-classes" onclick="window.toggleClassesSheet(true)">
-          <span class="books-dock-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
-              <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
-            </svg>
-          </span>
-          <span class="books-dock-label">Classes</span>
-        </button>
-
-        <button type="button" class="books-dock-item" id="dock-btn-search" onclick="window.focusBookSearch()">
-          <span class="books-dock-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-          </span>
-          <span class="books-dock-label">Search</span>
-        </button>
-
-        <button type="button" class="books-dock-item" id="dock-btn-finder" onclick="window.scrollToSection('step-box-class')">
-          <span class="books-dock-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
-            </svg>
-          </span>
-          <span class="books-dock-label">Finder</span>
-        </button>
-
-        <button type="button" class="books-dock-item" id="dock-btn-catalog" onclick="window.scrollToSection('books-grid')">
-          <span class="books-dock-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Unified Mobile Bottom Navigation Bar (Identical to HarshGuruJi Ecosystem) -->
+      <nav class="hg-bottom-bar" id="hg-bottom-bar" aria-label="Mobile Navigation">
+        <a href="${isBooksPage ? '#top' : 'books.html'}" class="hg-bottom-item active" id="bottom-nav-books" title="NCERT Books">
+          <span class="hg-bottom-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
               <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
             </svg>
           </span>
-          <span class="books-dock-label">Textbooks</span>
-        </button>
+          <span class="hg-bottom-label">Books</span>
+        </a>
+
+        <a href="https://www.webguruji.online/daily-special.html" class="hg-bottom-item" id="bottom-nav-dailyspecial" title="Daily Special">
+          <span class="hg-bottom-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+          </span>
+          <span class="hg-bottom-label">Daily Special</span>
+        </a>
+
+        <a href="https://store.webguruji.online" class="hg-bottom-item" id="bottom-nav-store" target="_blank" rel="noopener noreferrer" title="HarshGuruJi Store">
+          <span class="hg-bottom-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+          </span>
+          <span class="hg-bottom-label">Store</span>
+        </a>
+
+        <a href="https://www.webguruji.online/" class="hg-bottom-item hg-bottom-item-home" id="bottom-nav-home" title="Home">
+          <span class="hg-bottom-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+          </span>
+          <span class="hg-bottom-label">Home</span>
+        </a>
+
+        <a href="https://chat.webguruji.online" class="hg-bottom-item" id="bottom-nav-chat" target="_blank" rel="noopener noreferrer" title="Chat App">
+          <span class="hg-bottom-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+            </svg>
+          </span>
+          <span class="hg-bottom-label">Chat</span>
+        </a>
+
+        <a href="https://www.webguruji.online/contributor.html" class="hg-bottom-item" id="bottom-nav-contributor" title="Contributors">
+          <span class="hg-bottom-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </span>
+          <span class="hg-bottom-label">Contributor</span>
+        </a>
+
+        <a href="https://www.webguruji.online/login.html" class="hg-bottom-item" id="bottom-nav-auth" title="Profile / Account">
+          <span class="hg-bottom-icon" id="bottom-auth-icon-wrap">
+            <svg id="bottom-auth-default-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <img id="bottom-auth-avatar" src="books.png" onerror="this.src='logo.png'" alt="Profile" style="display:none;" />
+          </span>
+          <span class="hg-bottom-label" id="bottom-auth-label">Account</span>
+        </a>
       </nav>
-
-      <!-- Mobile Classes Bottom Sheet Modal -->
-      <div class="books-sheet-overlay" id="books-sheet-overlay" onclick="if(event.target===this) window.toggleClassesSheet(false)" aria-hidden="true">
-        <div class="books-bottom-sheet" role="dialog" aria-modal="true" aria-label="Select Class Sheet">
-          <div class="books-sheet-handle"></div>
-          <div class="books-sheet-head">
-            <div class="books-sheet-title">
-              <span>🎓</span> Select NCERT Class
-            </div>
-            <button type="button" class="books-sheet-close" onclick="window.toggleClassesSheet(false)" aria-label="Close Class Sheet">&times;</button>
-          </div>
-
-          <div class="books-sheet-grid">
-            <button type="button" class="books-sheet-class-btn" onclick="window.selectBookClass('12')">
-              <span class="num">12</span>
-              <span class="label">Class 12</span>
-            </button>
-            <button type="button" class="books-sheet-class-btn" onclick="window.selectBookClass('11')">
-              <span class="num">11</span>
-              <span class="label">Class 11</span>
-            </button>
-            <button type="button" class="books-sheet-class-btn" onclick="window.selectBookClass('10')">
-              <span class="num">10</span>
-              <span class="label">Class 10</span>
-            </button>
-            <button type="button" class="books-sheet-class-btn" onclick="window.selectBookClass('9')">
-              <span class="num">9</span>
-              <span class="label">Class 9</span>
-            </button>
-            <button type="button" class="books-sheet-class-btn" onclick="window.selectBookClass('8')">
-              <span class="num">8</span>
-              <span class="label">Class 8</span>
-            </button>
-            <button type="button" class="books-sheet-class-btn" onclick="window.selectBookClass('7')">
-              <span class="num">7</span>
-              <span class="label">Class 7</span>
-            </button>
-            <button type="button" class="books-sheet-class-btn" onclick="window.selectBookClass('6')">
-              <span class="num">6</span>
-              <span class="label">Class 6</span>
-            </button>
-            <button type="button" class="books-sheet-class-btn" onclick="window.selectBookClass('5')">
-              <span class="num">5</span>
-              <span class="label">Class 5</span>
-            </button>
-            <button type="button" class="books-sheet-class-btn" onclick="window.selectBookClass('4')">
-              <span class="num">4</span>
-              <span class="label">Class 4</span>
-            </button>
-            <button type="button" class="books-sheet-class-btn" onclick="window.selectBookClass('3')">
-              <span class="num">3</span>
-              <span class="label">Class 3</span>
-            </button>
-            <button type="button" class="books-sheet-class-btn" onclick="window.selectBookClass('2')">
-              <span class="num">2</span>
-              <span class="label">Class 2</span>
-            </button>
-            <button type="button" class="books-sheet-class-btn" onclick="window.selectBookClass('1')">
-              <span class="num">1</span>
-              <span class="label">Class 1</span>
-            </button>
-          </div>
-
-          <div style="margin-top: 14px; text-align: center;">
-            <button type="button" class="books-mega-all-btn" style="width:100%; padding:10px;" onclick="window.selectBookClass('all')">
-              Show All Classes &amp; Textbooks
-            </button>
-          </div>
-        </div>
-      </div>
     `;
 
     document.body.insertAdjacentHTML('afterbegin', navHTML);
 
-    // Desktop classes dropdown toggle & accessibility
-    const dropdownWrap = document.getElementById('books-classes-dropdown-wrap');
-    const dropdownBtn = document.getElementById('btn-classes-dropdown');
-    if (dropdownWrap && dropdownBtn) {
-      dropdownBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isOpen = dropdownWrap.classList.toggle('open');
-        dropdownBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      });
-
-      document.addEventListener('click', (e) => {
-        if (!dropdownWrap.contains(e.target)) {
-          dropdownWrap.classList.remove('open');
-          dropdownBtn.setAttribute('aria-expanded', 'false');
-        }
-      });
-    }
-
     // Scroll effect for header
     const header = document.getElementById('books-nav-header');
     if (header) {
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 25) {
-          header.classList.add('scrolled');
-        } else {
-          header.classList.remove('scrolled');
-        }
-      }, { passive: true });
+      const handleScroll = () => {
+        if (window.scrollY > 15) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
+      };
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      handleScroll();
     }
   }
 
-  // =========================================================================
-  // GLOBAL INTERACTIVE ACTIONS
-  // =========================================================================
-
-  // 1. Direct Class Selector across Navbar and Books Engine
-  window.selectBookClass = function (classNumber) {
-    // Close mobile sheet if open
-    window.toggleClassesSheet(false);
-    
-    // Close desktop dropdown if open
-    const dropdownWrap = document.getElementById('books-classes-dropdown-wrap');
-    if (dropdownWrap) dropdownWrap.classList.remove('open');
-
-    // If we're not currently on books.html/index.html, redirect with query param
-    if (!document.getElementById('select-class') && !document.getElementById('books-grid')) {
-      window.location.href = `books.html?class=${encodeURIComponent(classNumber)}`;
-      return;
+  window.focusBookSearch = function () {
+    const searchInput = document.getElementById('book-search-input') || document.getElementById('search-input') || document.querySelector('.search-input');
+    if (searchInput) {
+      searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => searchInput.focus(), 250);
+    } else {
+      window.scrollToSection('step-box-class');
     }
-
-    const val = (classNumber === 'all') ? '' : String(classNumber);
-    const selectClass = document.getElementById('select-class');
-
-    // Trigger selectClass change
-    if (selectClass) {
-      selectClass.value = val;
-      selectClass.dispatchEvent(new Event('change', { bubbles: true }));
-    }
-
-    // Update Pills row active state
-    const pill = document.querySelector(`.class-pill[data-class="${classNumber}"]`);
-    if (pill) {
-      document.querySelectorAll('.class-pill').forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-    }
-
-    // Scroll smoothly to the catalog
-    window.scrollToSection('books-grid');
   };
 
-  // 2. Smooth Section Scroll with Header Offset
-  window.scrollToSection = function (elementId) {
-    if (elementId === 'top') {
+  window.scrollToSection = function (id) {
+    if (id === 'top') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
-
-    const target = document.getElementById(elementId);
-    if (!target) {
-      if (!isBooksPage) {
-        window.location.href = `books.html#${elementId}`;
-      }
-      return;
-    }
-
-    const navHeight = 75;
-    const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
-    const offsetPosition = Math.max(0, elementPosition - navHeight);
-
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: 'smooth'
-    });
-  };
-
-  // 3. Focus Universal Search Input with Ripple Glow
-  window.focusBookSearch = function () {
-    const searchInput = document.getElementById('book-search-input');
-    const searchCard = document.querySelector('.book-search-input-wrap') || document.querySelector('.book-search-card');
-
-    if (!searchInput) {
-      if (!isBooksPage) {
-        window.location.href = 'books.html?focus=search';
-      }
-      return;
-    }
-
-    window.scrollToSection('book-search-input');
-    setTimeout(() => {
-      searchInput.focus();
-      if (searchCard) {
-        searchCard.classList.add('book-search-focus-glow');
-        setTimeout(() => searchCard.classList.remove('book-search-focus-glow'), 2400);
-      }
-    }, 250);
-  };
-
-  // 4. Mobile Bottom Sheet Toggle
-  window.toggleClassesSheet = function (open) {
-    const overlay = document.getElementById('books-sheet-overlay');
-    if (!overlay) return;
-
-    if (open) {
-      overlay.classList.add('active');
-      overlay.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-    } else {
-      overlay.classList.remove('active');
-      overlay.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
+    const el = document.getElementById(id);
+    if (el) {
+      const yOffset = -80;
+      const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
 
-  // =========================================================================
-  // URL PARAMETERS & DEEP LINKING (?class=10, ?search=science)
-  // =========================================================================
-  function setupUrlParamHandlers() {
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const classParam = params.get('class');
-      const searchParam = params.get('search');
-      const focusParam = params.get('focus');
-
-      if (classParam) {
-        const cleanClass = classParam.replace(/class/i, '').trim();
-        setTimeout(() => {
-          window.selectBookClass(cleanClass);
-        }, 350);
-      }
-
-      if (searchParam) {
-        const searchInput = document.getElementById('book-search-input');
-        if (searchInput) {
-          searchInput.value = searchParam;
-          searchInput.dispatchEvent(new Event('input', { bubbles: true }));
-          setTimeout(() => window.scrollToSection('books-grid'), 400);
-        }
-      }
-
-      if (focusParam === 'search') {
-        setTimeout(window.focusBookSearch, 400);
-      }
-    } catch (e) {
-      console.warn('[BooksNav] Error handling URL params:', e);
-    }
-  }
-
-  // =========================================================================
-  // SCROLL-SPY ACTIVE LINK HIGHLIGHTER
-  // =========================================================================
-  function setupScrollSpy() {
-    const sections = [
-      { id: 'books-grid', dnav: 'dnav-link-catalog', dock: 'dock-btn-catalog' },
-      { id: 'step-box-class', dnav: 'dnav-link-finder', dock: 'dock-btn-finder' }
-    ];
-
-    let ticking = false;
-
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          updateActiveNavLinks();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    }, { passive: true });
-
-    function updateActiveNavLinks() {
-      const scrollPos = window.scrollY + 200;
-
-      // Check if at top
-      if (window.scrollY < 180) {
-        setActiveLinks('dnav-link-home', 'dock-btn-home');
-        return;
-      }
-
-      for (let i = 0; i < sections.length; i++) {
-        const el = document.getElementById(sections[i].id);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPos >= top && scrollPos < top + height) {
-            setActiveLinks(sections[i].dnav, sections[i].dock);
-            return;
-          }
-        }
-      }
-    }
-
-    function setActiveLinks(dnavId, dockId) {
-      document.querySelectorAll('.books-nav-link').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.books-dock-item').forEach(el => el.classList.remove('active'));
-
-      if (dnavId) document.getElementById(dnavId)?.classList.add('active');
-      if (dockId) document.getElementById(dockId)?.classList.add('active');
-    }
-  }
-
-  // =========================================================================
-  // KEYBOARD SHORTCUTS (Ctrl + K, Escape)
-  // =========================================================================
   function setupKeyboardShortcuts() {
     document.addEventListener('keydown', (e) => {
-      // Ctrl + K or Cmd + K: Focus Search
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
         window.focusBookSearch();
       }
-
-      // Escape: Close mobile sheet or mega menu
-      if (e.key === 'Escape') {
-        window.toggleClassesSheet(false);
-        const dropdownWrap = document.getElementById('books-classes-dropdown-wrap');
-        if (dropdownWrap) dropdownWrap.classList.remove('open');
-      }
     });
+  }
+
+  function setupUrlParamHandlers() {
+    const params = new URLSearchParams(window.location.search);
+    const classParam = params.get('class');
+    const searchParam = params.get('search');
+
+    if (classParam && typeof window.selectBookClass === 'function') {
+      setTimeout(() => window.selectBookClass(classParam), 300);
+    }
+    if (searchParam) {
+      const input = document.getElementById('book-search-input');
+      if (input) {
+        input.value = searchParam;
+        input.dispatchEvent(new Event('input'));
+      }
+    }
+  }
+
+  function setupScrollSpy() {
+    // Optional smooth section highlighting
   }
 
 })();

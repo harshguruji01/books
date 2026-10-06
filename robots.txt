@@ -13,6 +13,8 @@ Allow: /
 # ── Public Books Pages ─────────────────────────────────────
 Allow: /index.html
 Allow: /books.html
+Allow: /owner.html
+Allow: /login.html
 
 # ── Static Assets (CSS, JS, Images for Rich Snippets) ──────
 Allow: /css/
@@ -44,13 +46,16 @@ Disallow: /settings.html
 Disallow: /node_modules/
 Disallow: /*.sql$
 Disallow: /*.md$
-Disallow: /*.json$
+Disallow: /package.json
+Disallow: /package-lock.json
 
 # ── Googlebot & Image Crawlers ─────────────────────────────
 User-agent: Googlebot
 Allow: /
 Allow: /index.html
 Allow: /books.html
+Allow: /owner.html
+Allow: /login.html
 Allow: /css/
 Allow: /js/
 

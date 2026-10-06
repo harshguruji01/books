@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <script src="error-shield.js"></script>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Redirecting to Login - HarshGuruJi</title>
@@ -11,8 +10,9 @@
   <script>
     (function() {
       const params = new URLSearchParams(window.location.search);
-      const redirect = params.get('redirect') || 'https://books.webguruji.online/';
-      window.location.replace('https://webguruji.online/login.html?redirect=' + encodeURIComponent(redirect));
+      const redirect = params.get('redirect') || (window.location.protocol === 'file:' ? window.location.href : 'https://books.webguruji.online/');
+      const targetBase = window.location.protocol === 'file:' ? '../../site/login.html' : 'https://www.webguruji.online/login.html';
+      window.location.replace(targetBase + '?redirect=' + encodeURIComponent(redirect));
     })();
   </script>
   <link rel="stylesheet" href="responsive-patch.css">
@@ -20,7 +20,7 @@
 <body style="background:#07090e; color:#f8fafc; font-family:system-ui,-apple-system,sans-serif; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; text-align:center;">
   <div>
     <h2 style="font-size:1.5rem; margin-bottom:0.5rem; font-weight:700;">Redirecting to Secure Login...</h2>
-    <p style="color:#94a3b8; font-size:0.95rem;">Taking you to HarshGuruJi Central Authentication at <a href="https://webguruji.online/login.html" style="color:#38bdf8; text-decoration:none;">webguruji.online/login.html</a></p>
+    <p style="color:#94a3b8; font-size:0.95rem;">Taking you to HarshGuruJi Central Authentication at <a href="https://www.webguruji.online/login.html" style="color:#38bdf8; text-decoration:none;">webguruji.online/login.html</a></p>
   </div>
 </body>
 </html>

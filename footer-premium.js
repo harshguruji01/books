@@ -1,5 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+  // Auto-Ensure Google AdSense Token & Script
+  if (!document.querySelector('meta[name="google-adsense-account"]')) {
+    const meta = document.createElement('meta');
+    meta.name = 'google-adsense-account';
+    meta.content = 'ca-pub-7706204118195419';
+    document.head.appendChild(meta);
+  }
+  if (!document.querySelector('script[src*="pagead2.googlesyndication.com"]')) {
+    const script = document.createElement('script');
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7706204118195419';
+    document.head.appendChild(script);
+  }
+
   // Remove existing hardcoded footers
   document.querySelectorAll('footer.footer, footer.hg-global-footer').forEach(el => el.remove());
   const oldFooterPlaceholder = document.getElementById('footer-placeholder');
@@ -9,11 +24,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const footerHTML = `
     <footer class="hg-global-footer">
+      <!-- Massive Auto-Twinkling Stars Canvas -->
+      <canvas id="hg-footer-stars-canvas" class="hg-footer-stars-canvas" aria-hidden="true"></canvas>
+
       <div class="hg-footer-grid">
         <div class="hg-footer-brand">
           <a href="books.html" style="display:flex; align-items:center; gap:0.75rem; text-decoration:none; margin-bottom: 1.25rem;">
             <img src="books.png" onerror="this.src='logo.png'" alt="HarshGuruJi Books Logo" style="height: 36px; width: auto; max-width: 44px; border-radius: 8px; object-fit: contain;" />
-            <span style="font-family:'Space Grotesk',sans-serif; font-weight:800; font-size:1.45rem; background:linear-gradient(135deg,#6366f1,#a855f7,#ec4899); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">HarshGuruJi Books</span>
+            <span style="font-family:'Space Grotesk',sans-serif; font-weight:800; font-size:1.45rem; background:linear-gradient(135deg,#a855f7,#c084fc,#ec4899); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">HarshGuruJi Books</span>
           </a>
           <p>Official NCERT Textbooks &amp; Solutions Library for Classes 1 to 12. Instant chapter-by-chapter reading, verified PDF downloads, and interactive book discovery engine.</p>
           
@@ -70,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <ul>
               <li><a href="https://www.webguruji.online" target="_blank" rel="noopener noreferrer">Main Portal ↗</a></li>
               <li><a href="https://store.webguruji.online" target="_blank" rel="noopener noreferrer">Apps &amp; Software Store ↗</a></li>
+              <li><a href="https://tube.webguruji.online" target="_blank" rel="noopener noreferrer">GuruTube Video Player ↗</a></li>
               <li><a href="https://chat.webguruji.online" target="_blank" rel="noopener noreferrer">ChatBase AI ↗</a></li>
               <li><a href="https://www.webguruji.online/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
               <li><a href="https://www.webguruji.online/terms-and-conditions.html" target="_blank" rel="noopener noreferrer">Terms of Service</a></li>
@@ -91,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         <p style="color: var(--text-secondary, #a1a1aa); font-size: 0.85rem; margin: 0;">
           &copy; <span id="hg-footer-year">${currentYear}</span> HarshGuruJi. All Rights Reserved. <br>
-          Official NCERT Books Library — <a href="https://www.webguruji.online" target="_blank" rel="noopener noreferrer" style="color:#818cf8; text-decoration:none;">www.webguruji.online</a>
+          Official NCERT Books Library — <a href="https://www.webguruji.online" target="_blank" rel="noopener noreferrer" style="color:#c084fc; text-decoration:none;">www.webguruji.online</a>
         </p>
       </div>
     </footer>
@@ -111,7 +130,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (mainInput) {
           mainInput.value = val;
           mainInput.dispatchEvent(new Event('input', { bubbles: true }));
-          window.scrollToSection('books-grid');
+          if (typeof window.scrollToSection === 'function') {
+            window.scrollToSection('books-grid');
+          }
         } else {
           window.location.href = `books.html?search=${encodeURIComponent(val)}`;
         }
@@ -123,4 +144,218 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.key === 'Enter') handleFooterSearch();
     });
   }
+
+  // =========================================================================
+  // MASSIVE AUTO-TWINKLING STARS & SCROLL-TRIGGERED REVEAL ANIMATION SYSTEM
+  // =========================================================================
+  function initFooterStarsAndScrollAnimation() {
+    const footer = document.querySelector('.hg-global-footer');
+    const canvas = document.getElementById('hg-footer-stars-canvas');
+    if (!footer || !canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    let width = 0;
+    let height = 0;
+    let stars = [];
+    let shootingStars = [];
+    let mouse = { x: -1000, y: -1000, active: false };
+    let animationFrameId = null;
+    let isFooterVisible = false;
+
+    // High DPI Canvas Scaling & Massive Stars Initialization
+    function resizeCanvas() {
+      const rect = footer.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = rect.width;
+      height = rect.height;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(dpr, dpr);
+      createStars();
+    }
+
+    function createStars() {
+      stars = [];
+      const starCount = Math.max(140, Math.min(280, Math.floor((width * height) / 3000)));
+
+      // Purple / Violet / Indigo Celestial Palette
+      const colors = [
+        { r: 255, g: 255, b: 255 }, // Diamond White
+        { r: 216, g: 180, b: 254 }, // Soft Lavender (#d8b4fe)
+        { r: 192, g: 132, b: 252 }, // Neon Violet (#c084fc)
+        { r: 244, g: 114, b: 182 }, // Cosmic Pink (#f472b6)
+        { r: 254, g: 240, b: 138 }  // Radiant Warm Gold (#fef08a)
+      ];
+
+      for (let i = 0; i < starCount; i++) {
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const isBright = Math.random() < 0.18;
+        stars.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          radius: isBright ? Math.random() * 1.4 + 1.2 : Math.random() * 0.9 + 0.45,
+          baseAlpha: Math.random() * 0.35 + 0.2,
+          twinkleSpeed: Math.random() * 0.045 + 0.015,
+          twinklePhase: Math.random() * Math.PI * 2,
+          twinkleRange: Math.random() * 0.55 + 0.35,
+          color: color,
+          isBright: isBright
+        });
+      }
+    }
+
+    // Dynamic Shooting Star / Meteor Spawner
+    function spawnShootingStar() {
+      if (shootingStars.length >= 2 || !isFooterVisible) return;
+      const startX = Math.random() * width * 0.85;
+      const startY = Math.random() * height * 0.45;
+      const length = Math.random() * 85 + 75;
+      const angle = (Math.PI / 4) + (Math.random() * 0.2 - 0.1);
+      const speed = Math.random() * 6 + 5;
+
+      shootingStars.push({
+        x: startX,
+        y: startY,
+        dx: Math.cos(angle) * speed,
+        dy: Math.sin(angle) * speed,
+        length: length,
+        life: 0,
+        maxLife: Math.random() * 45 + 35,
+        opacity: 1
+      });
+    }
+
+    let meteorInterval = setInterval(() => {
+      if (isFooterVisible && Math.random() < 0.65) {
+        spawnShootingStar();
+      }
+    }, 4200);
+
+    // Continuous 60fps Star Drawing Engine
+    function drawStars() {
+      if (!isFooterVisible) return;
+      ctx.clearRect(0, 0, width, height);
+
+      const time = performance.now() * 0.001;
+
+      // 1. Twinkling Stars
+      for (let i = 0; i < stars.length; i++) {
+        const s = stars[i];
+        const pulse = Math.sin(time * s.twinkleSpeed * 60 + s.twinklePhase);
+        let alpha = s.baseAlpha + pulse * s.twinkleRange;
+        alpha = Math.max(0.08, Math.min(1, alpha));
+
+        if (mouse.active) {
+          const dx = s.x - mouse.x;
+          const dy = s.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 130) {
+            alpha = Math.min(1, alpha + (1 - dist / 130) * 0.65);
+          }
+        }
+
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${s.color.r}, ${s.color.g}, ${s.color.b}, ${alpha})`;
+        ctx.shadowColor = `rgba(${s.color.r}, ${s.color.g}, ${s.color.b}, ${alpha * 0.8})`;
+        ctx.shadowBlur = s.isBright ? 9 : 4;
+        ctx.fill();
+
+        if (s.isBright && alpha > 0.6) {
+          const flareLen = s.radius * (2.8 + pulse * 1.5);
+          ctx.strokeStyle = `rgba(${s.color.r}, ${s.color.g}, ${s.color.b}, ${alpha * 0.75})`;
+          ctx.lineWidth = 0.75;
+          ctx.beginPath();
+          ctx.moveTo(s.x - flareLen, s.y);
+          ctx.lineTo(s.x + flareLen, s.y);
+          ctx.moveTo(s.x, s.y - flareLen);
+          ctx.lineTo(s.x, s.y + flareLen);
+          ctx.stroke();
+        }
+      }
+      ctx.shadowBlur = 0;
+
+      // 2. Shooting Stars
+      for (let j = shootingStars.length - 1; j >= 0; j--) {
+        const m = shootingStars[j];
+        m.x += m.dx;
+        m.y += m.dy;
+        m.life++;
+
+        const progress = m.life / m.maxLife;
+        m.opacity = progress < 0.2 ? progress / 0.2 : (1 - progress);
+
+        if (progress >= 1 || m.x > width + 100 || m.y > height + 100) {
+          shootingStars.splice(j, 1);
+          continue;
+        }
+
+        const tailX = m.x - (m.dx / Math.hypot(m.dx, m.dy)) * m.length;
+        const tailY = m.y - (m.dy / Math.hypot(m.dx, m.dy)) * m.length;
+
+        const grad = ctx.createLinearGradient(tailX, tailY, m.x, m.y);
+        grad.addColorStop(0, 'rgba(168, 85, 247, 0)');
+        grad.addColorStop(0.7, `rgba(236, 72, 153, ${m.opacity * 0.6})`);
+        grad.addColorStop(1, `rgba(255, 255, 255, ${m.opacity})`);
+
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.8;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(tailX, tailY);
+        ctx.lineTo(m.x, m.y);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(m.x, m.y, 2.2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${m.opacity})`;
+        ctx.shadowColor = 'rgba(168, 85, 247, 0.9)';
+        ctx.shadowBlur = 12;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+
+      animationFrameId = requestAnimationFrame(drawStars);
+    }
+
+    footer.addEventListener('mousemove', (e) => {
+      const rect = footer.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+      mouse.active = true;
+    });
+    footer.addEventListener('mouseleave', () => {
+      mouse.active = false;
+    });
+
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          isFooterVisible = true;
+          footer.classList.add('hg-footer-visible');
+          if (!animationFrameId) {
+            animationFrameId = requestAnimationFrame(drawStars);
+          }
+        } else {
+          isFooterVisible = false;
+          if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+          }
+        }
+      });
+    }, { threshold: 0.05, rootMargin: '100px' });
+
+    observer.observe(footer);
+    resizeCanvas();
+  }
+
+  initFooterStarsAndScrollAnimation();
 });

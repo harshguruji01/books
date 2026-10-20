@@ -1,144 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd
         http://www.google.com/schemas/sitemap-image/1.1
         http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd">
-
-  <!-- ============================================================ -->
-  <!-- HarshGuruJi NCERT Books Library — Official Digital Subdomain -->
-  <!-- Website Name: HarshGuruJi                                    -->
-  <!-- Main URL: https://www.webguruji.online                       -->
-  <!-- Subdomain URL: https://books.webguruji.online/               -->
-  <!-- Total Textbooks Indexed: 1,246+ (Classes 1 to 12)             -->
-  <!-- ============================================================ -->
-
-  <!-- BOOKS HOMEPAGE -->
   <url>
     <loc>https://books.webguruji.online/</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
-    <image:image>
-      <image:loc>https://books.webguruji.online/harshlogo.png</image:loc>
-      <image:title>HarshGuruJi Books Library Official Logo</image:title>
-      <image:caption>HarshGuruJi official NCERT textbooks and free digital books library</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://books.webguruji.online/logo-512.png</image:loc>
-      <image:title>HarshGuruJi Books 512 Icon</image:title>
-      <image:caption>HarshGuruJi Books library brand icon</image:caption>
-    </image:image>
   </url>
-
-  <!-- BOOKS DIRECT CATALOGUE PAGE -->
   <url>
     <loc>https://books.webguruji.online/books.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
-    <image:image>
-      <image:loc>https://books.webguruji.online/harshlogo.png</image:loc>
-      <image:title>HarshGuruJi NCERT Digital Books Catalogue</image:title>
-      <image:caption>Read and download NCERT Class 1-12 English and Hindi medium textbooks on HarshGuruJi</image:caption>
-    </image:image>
   </url>
-
-  <!-- FOUNDER & OWNER OFFICIAL PROFILE -->
   <url>
     <loc>https://books.webguruji.online/owner.html</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.95</priority>
-    <image:image>
-      <image:loc>https://books.webguruji.online/harshlogo.png</image:loc>
-      <image:title>Harsh Patel (HarshGuruJi) — Platform Founder</image:title>
-      <image:caption>Official founder profile, achievements, and social channels of HarshGuruJi</image:caption>
-    </image:image>
+    <priority>0.90</priority>
   </url>
-
-  <!-- CLASS-SPECIFIC DIRECT SEARCH INDEXES -->
+  <url>
+    <loc>https://books.webguruji.online/login.html</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
   <url>
     <loc>https://books.webguruji.online/books.html?class=12</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://books.webguruji.online/books.html?class=11</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://books.webguruji.online/books.html?class=10</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://books.webguruji.online/books.html?class=9</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://books.webguruji.online/books.html?class=8</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://books.webguruji.online/books.html?class=7</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://books.webguruji.online/books.html?class=6</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://books.webguruji.online/books.html?class=5</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://books.webguruji.online/books.html?class=4</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://books.webguruji.online/books.html?class=3</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://books.webguruji.online/books.html?class=2</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://books.webguruji.online/books.html?class=1</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.75</priority>
   </url>
-
-  <!-- AUTHENTICATION REDIRECT PAGE -->
-  <url>
-    <loc>https://books.webguruji.online/login.html</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
 </urlset>

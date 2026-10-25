@@ -1,105 +1,122 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd
-        http://www.google.com/schemas/sitemap-image/1.1
-        http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd">
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
   <url>
-    <loc>https://books.webguruji.online/</loc>
-    <lastmod>2026-10-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+       <loc>https://books.webguruji.online/</loc>
+       <lastmod>2026-10-25T12:00:00+00:00</lastmod>
+       <priority>1.0000</priority>
+       <image:image>
+         <image:loc>https://books.webguruji.online/harshguruji-books-ncert.webp</image:loc>
+         <image:title>HarshGuruJi Free NCERT Books &amp; Study Guides</image:title>
+         <image:caption>Free NCERT digital textbooks for Class 6 to 12, CBSE question banks, exemplar solutions, and integrated PDF reader.</image:caption>
+       </image:image>
   </url>
   <url>
-    <loc>https://books.webguruji.online/books.html</loc>
-    <lastmod>2026-10-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+       <loc>https://books.webguruji.online/books.html</loc>
+       <lastmod>2026-10-20T02:55:45+00:00</lastmod>
+       <priority>0.6400</priority>
   </url>
   <url>
-    <loc>https://books.webguruji.online/owner.html</loc>
-    <lastmod>2026-10-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
+       <loc>https://books.webguruji.online/books.html?class=12</loc>
+       <lastmod>2026-10-20T02:55:45+00:00</lastmod>
+       <priority>0.6400</priority>
   </url>
   <url>
-    <loc>https://books.webguruji.online/login.html</loc>
-    <lastmod>2026-10-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
+       <loc>https://books.webguruji.online/books.html?class=11</loc>
+       <lastmod>2026-10-20T02:55:45+00:00</lastmod>
+       <priority>0.6400</priority>
   </url>
   <url>
-    <loc>https://books.webguruji.online/books.html?class=12</loc>
-    <lastmod>2026-10-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
+       <loc>https://books.webguruji.online/books.html?class=10</loc>
+       <lastmod>2026-10-20T02:55:45+00:00</lastmod>
+       <priority>0.6400</priority>
   </url>
   <url>
-    <loc>https://books.webguruji.online/books.html?class=11</loc>
-    <lastmod>2026-10-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
+       <loc>https://books.webguruji.online/books.html?class=9</loc>
+       <lastmod>2026-10-20T02:55:45+00:00</lastmod>
+       <priority>0.6400</priority>
   </url>
   <url>
-    <loc>https://books.webguruji.online/books.html?class=10</loc>
-    <lastmod>2026-10-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.95</priority>
+       <loc>https://books.webguruji.online/books.html?class=8</loc>
+       <lastmod>2026-10-20T02:55:45+00:00</lastmod>
+       <priority>0.6400</priority>
   </url>
   <url>
-    <loc>https://books.webguruji.online/books.html?class=9</loc>
-    <lastmod>2026-10-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.90</priority>
+       <loc>https://books.webguruji.online/books.html?class=7</loc>
+       <lastmod>2026-10-20T02:55:45+00:00</lastmod>
+       <priority>0.6400</priority>
   </url>
   <url>
-    <loc>https://books.webguruji.online/books.html?class=8</loc>
-    <lastmod>2026-10-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.90</priority>
+       <loc>https://books.webguruji.online/books.html?class=6</loc>
+       <lastmod>2026-10-20T02:55:45+00:00</lastmod>
+       <priority>0.6400</priority>
   </url>
   <url>
-    <loc>https://books.webguruji.online/books.html?class=7</loc>
-    <lastmod>2026-10-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
+       <loc>https://books.webguruji.online/books.html?class=5</loc>
+       <lastmod>2026-10-20T02:55:45+00:00</lastmod>
+       <priority>0.6400</priority>
   </url>
   <url>
-    <loc>https://books.webguruji.online/books.html?class=6</loc>
-    <lastmod>2026-10-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.85</priority>
+       <loc>https://books.webguruji.online/books.html?class=4</loc>
+       <lastmod>2026-10-20T02:55:45+00:00</lastmod>
+       <priority>0.6400</priority>
   </url>
   <url>
-    <loc>https://books.webguruji.online/books.html?class=5</loc>
-    <lastmod>2026-10-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.80</priority>
+       <loc>https://books.webguruji.online/books.html?class=3</loc>
+       <lastmod>2026-10-20T02:55:45+00:00</lastmod>
+       <priority>0.6400</priority>
   </url>
   <url>
-    <loc>https://books.webguruji.online/books.html?class=4</loc>
-    <lastmod>2026-10-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.80</priority>
+       <loc>https://books.webguruji.online/books.html?class=2</loc>
+       <lastmod>2026-10-20T02:55:45+00:00</lastmod>
+       <priority>0.6400</priority>
   </url>
   <url>
-    <loc>https://books.webguruji.online/books.html?class=3</loc>
-    <lastmod>2026-10-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.80</priority>
+       <loc>https://books.webguruji.online/books.html?class=1</loc>
+       <lastmod>2026-10-20T02:55:45+00:00</lastmod>
+       <priority>0.6400</priority>
   </url>
   <url>
-    <loc>https://books.webguruji.online/books.html?class=2</loc>
-    <lastmod>2026-10-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.75</priority>
+       <loc>https://books.webguruji.online/books.html?q=Mathematics</loc>
+       <lastmod>2026-10-20T02:55:45+00:00</lastmod>
+       <priority>0.6400</priority>
   </url>
   <url>
-    <loc>https://books.webguruji.online/books.html?class=1</loc>
-    <lastmod>2026-10-20</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.75</priority>
+       <loc>https://books.webguruji.online/books.html?q=Science</loc>
+       <lastmod>2026-10-20T02:55:45+00:00</lastmod>
+       <priority>0.6400</priority>
+  </url>
+  <url>
+       <loc>https://books.webguruji.online/books.html?q=Physics</loc>
+       <lastmod>2026-10-20T02:55:45+00:00</lastmod>
+       <priority>0.6400</priority>
+  </url>
+  <url>
+       <loc>https://books.webguruji.online/books.html?q=Chemistry</loc>
+       <lastmod>2026-10-20T02:55:45+00:00</lastmod>
+       <priority>0.6400</priority>
+  </url>
+  <url>
+       <loc>https://books.webguruji.online/books.html?q=Biology</loc>
+       <lastmod>2026-10-20T02:55:45+00:00</lastmod>
+       <priority>0.6400</priority>
+  </url>
+  <url>
+       <loc>https://books.webguruji.online/books.html?q=Social+Science</loc>
+       <lastmod>2026-10-20T02:55:45+00:00</lastmod>
+       <priority>0.6400</priority>
+  </url>
+  <url>
+       <loc>https://books.webguruji.online/books.html?q=Hindi</loc>
+       <lastmod>2026-10-20T02:55:45+00:00</lastmod>
+       <priority>0.6400</priority>
+  </url>
+  <url>
+       <loc>https://books.webguruji.online/books.html?q=English</loc>
+       <lastmod>2026-10-20T02:55:45+00:00</lastmod>
+       <priority>0.6400</priority>
   </url>
 </urlset>

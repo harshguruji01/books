@@ -2,6 +2,8 @@
 User-agent: *
 Allow: /
 Allow: /books.html
+Allow: /harshguruji-books-ncert.webp
+Allow: /*.webp$
 Allow: /owner.html
 Allow: /login.html
 Disallow: /admin*
@@ -9,8 +11,7 @@ Disallow: /dashboard.html
 Disallow: /settings.html
 
 Sitemap: https://books.webguruji.online/sitemap.xml
-Sitemap: https://books.webguruji.online/sitemap_index.xml
-Sitemap: https://www.webguruji.online/sitemap_index.xml
+Sitemap: https://webguruji.online/sitemap-images.xml
 Sitemap: https://www.webguruji.online/sitemap.xml
 Sitemap: https://store.webguruji.online/sitemap.xml
 Sitemap: https://chat.webguruji.online/sitemap.xml
